@@ -2,7 +2,7 @@
   "name": "zephyr",
   "productName": "zephyr",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "Light Ethereum Wallet",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
@@ -12,7 +12,7 @@
     "lint": "eslint --cache --color --ext .jsx,.js src"
   },
   "keywords": [],
-  "author": "Jason",
+  "author": "Władysław Hubar",
   "license": "MIT",
   "config": {
     "forge": {
@@ -50,12 +50,14 @@
     "electron-compile": "^6.4.4",
     "electron-devtools-installer": "^2.1.0",
     "electron-squirrel-startup": "^1.0.0",
-    "react": "^15.4.1",
-    "react-dom": "^15.4.1",
+    "ethereumjs-tx": "^1.3.7",
+    "react": "^16.8.5",
+    "react-dom": "^16.8.5",
     "react-hot-loader": "^3.0.0-beta.6",
-    "web3": "^1.0.0-beta.50"
+    "web3": "^1.0.0-beta.51"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-plugin-transform-es2015-classes": "^6.24.1",
     "babel-preset-env": "^1.7.0",
