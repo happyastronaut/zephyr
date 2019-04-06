@@ -12,6 +12,7 @@ import Balance from "./components/Balance/Balance";
 import SendAsserts from "./components/SendAsserts/SendAsserts";
 import TransactionsHistory from "./components/TransactionsHistory/TransactionsHistory";
 import Receive from "./components/Receive/Receive";
+import Contacts from "./components/Contacts/Contacts";
 
 class App extends Component {
     constructor() {
@@ -43,6 +44,9 @@ class App extends Component {
                                 <Nav.Item>
                                     <Nav.Link eventKey="History">History</Nav.Link>
                                 </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link eventKey="Contacts">Contacts</Nav.Link>
+                                </Nav.Item>
                             </Nav>
                         </Col>
                         <Col sm={10}>
@@ -58,6 +62,9 @@ class App extends Component {
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="History">
                                     <TransactionsHistory address={this.state.account.address}/>
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="Contacts">
+                                    <Contacts/>
                                 </Tab.Pane>
                             </Tab.Content>
                         </Col>

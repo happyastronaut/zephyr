@@ -6,7 +6,7 @@ class Receive extends Component {
     render() {
         return (
             <div>
-                <QRCode value={this.props.address}/>
+                <QRCode size={200} value={this.props.address}/>
             </div>
         );
     }
