@@ -11,6 +11,7 @@ import Address from "./components/Address/Address";
 import Balance from "./components/Balance/Balance";
 import SendAsserts from "./components/SendAsserts/SendAsserts";
 import TransactionsHistory from "./components/TransactionsHistory/TransactionsHistory";
+import Receive from "./components/Receive/Receive";
 
 class App extends Component {
     constructor() {
@@ -31,25 +32,31 @@ class App extends Component {
                         <Col sm={2}>
                             <Nav variant="pills" className="flex-column">
                                 <Nav.Item>
-                                    <Nav.Link eventKey="first">Wallet</Nav.Link>
+                                    <Nav.Link eventKey="Wallet">Wallet</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link eventKey="second">Send</Nav.Link>
+                                    <Nav.Link eventKey="Send">Send</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link eventKey="third">History</Nav.Link>
+                                    <Nav.Link eventKey="Receive">Receive</Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link eventKey="History">History</Nav.Link>
                                 </Nav.Item>
                             </Nav>
                         </Col>
                         <Col sm={10}>
                             <Tab.Content>
-                                <Tab.Pane eventKey="first">
+                                <Tab.Pane eventKey="Wallet">
                                     <Balance address={this.state.account.address}/>
                                 </Tab.Pane>
-                                <Tab.Pane eventKey="second">
+                                <Tab.Pane eventKey="Send">
                                     <SendAsserts account={this.state.account}/>
                                 </Tab.Pane>
-                                <Tab.Pane eventKey="third">
+                                <Tab.Pane eventKey="Receive">
+                                    <Receive address={this.state.account.address}/>
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="History">
                                     <TransactionsHistory address={this.state.account.address}/>
                                 </Tab.Pane>
                             </Tab.Content>
