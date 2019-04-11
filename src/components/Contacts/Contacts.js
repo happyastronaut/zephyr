@@ -2,6 +2,13 @@ import React, {Component} from 'react';
 import Table from 'react-bootstrap/Table';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import {ropstenRpcURL} from "../../ethereum/constants/nets";
+
+const Web3 = require('web3');
+const web3 = new Web3(ropstenRpcURL);
+
+const Store = require('electron-store');
+const store = new Store();
 
 class Contacts extends Component {
 
@@ -17,37 +24,38 @@ class Contacts extends Component {
     }
 
     loadContacts() {
-        const loaded = [
-            {
-                name: 'Jason',
-                address: '0x132123123',
-            },
-            {
-                name: 'Leavers',
-                address: '0x78789789897',
-            },
-            {
-                name: 'Mom',
-                address: '0x4564654554665',
-            },
-        ];
+        const loaded = store.get('contactsList');
         this.setState({
             contactsList: loaded,
         });
     }
 
-
-    addNewContact(event) {
+    async addNewContact(event) {
         event.preventDefault();
+
         const item = {
             name: event.target.formName.value,
             address: event.target.formAddress.value,
         };
 
-        this.setState({
-            contactsList: [...this.state.contactsList, item],
-        });
-
+        if (item.name) {
+            if (web3.utils.isAddress(item.address)) {
+                if (!this.state.contactsList.some(el => el.address === item.address)) {
+                    await this.setState({
+                        contactsList: [...this.state.contactsList, item],
+                    });
+                    store.set('contactsList', this.state);
+                    store.openInEditor();
+                    console.log("Added");
+                } else {
+                    console.log("Address already in list ");
+                }
+            } else {
+                console.log("Not address");
+            }
+        } else {
+            console.log("Empty name");
+        }
     };
 
     render() {

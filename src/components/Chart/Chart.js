@@ -32,7 +32,7 @@ class Chart extends Component {
     //http://recharts.org/en-US/examples/AreaResponsiveContainer
     render() {
         return (
-            <div style={{ width: '100%', height: 300 }}>
+            <div style={{ minWidth: '10px', width: '100%', minHeight: '10px', height: 200 }}>
                 <h3>ETH price chart</h3>
                 <ResponsiveContainer>
                     <AreaChart

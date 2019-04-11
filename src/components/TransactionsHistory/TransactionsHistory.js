@@ -35,7 +35,7 @@ class TransactionsHistory extends Component {
                     label: 'Block',
                     field: 'blockNumber',
                     sort: 'asc',
-                    width: 100
+                    width: 50
                 },
                 {
                     label: 'From',

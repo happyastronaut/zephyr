@@ -15,16 +15,20 @@ import Receive from "./components/Receive/Receive";
 import Contacts from "./components/Contacts/Contacts";
 import Chart from "./components/Chart/Chart";
 
+
+const Store = require('electron-store');
+const store = new Store();
+
 class App extends Component {
     constructor() {
         super();
+        const Account = store.get('pk');
         this.state = {
-            account: undefined,
+            account: accountActions.createAccFromPK(Account.pk),
         };
     }
 
     render() {
-        this.state.account = accountActions.createAccFromPK('0x7cc936b609b30ad652a5fe88c0574a6ec63f9e2d577f577acdd935100bf37af9');
         return (
             <div>
                 <Address address={this.state.account.address}/>
