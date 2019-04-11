@@ -6,7 +6,7 @@ Lite, fast, sweet Ethereum wallet
 * npm
 * Python 2.7
 
-## Deployment 
+## Development  
 ``` 
  $ npm i
  $ npm run start
