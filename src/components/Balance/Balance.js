@@ -14,7 +14,7 @@ class Balance extends Component {
         };
     }
 
-    componentWillMount(){
+    componentDidMount(){
         this.checkBalance(this.props.address);
     }
 

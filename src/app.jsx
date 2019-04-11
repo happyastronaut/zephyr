@@ -13,6 +13,7 @@ import SendAsserts from "./components/SendAsserts/SendAsserts";
 import TransactionsHistory from "./components/TransactionsHistory/TransactionsHistory";
 import Receive from "./components/Receive/Receive";
 import Contacts from "./components/Contacts/Contacts";
+import Chart from "./components/Chart/Chart";
 
 class App extends Component {
     constructor() {
@@ -24,14 +25,13 @@ class App extends Component {
 
     render() {
         this.state.account = accountActions.createAccFromPK('0x7cc936b609b30ad652a5fe88c0574a6ec63f9e2d577f577acdd935100bf37af9');
-
         return (
             <div>
                 <Address address={this.state.account.address}/>
                 <Tab.Container id="left-tabs-example" defaultActiveKey="first">
                     <Row>
                         <Col sm={2}>
-                            <Nav variant="pills" className="flex-column">
+                            <Nav variant="pills" className="flex-column" >
                                 <Nav.Item>
                                     <Nav.Link eventKey="Wallet">Wallet</Nav.Link>
                                 </Nav.Item>
@@ -53,6 +53,7 @@ class App extends Component {
                             <Tab.Content>
                                 <Tab.Pane eventKey="Wallet">
                                     <Balance address={this.state.account.address}/>
+                                    <Chart/>
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="Send">
                                     <SendAsserts account={this.state.account}/>
