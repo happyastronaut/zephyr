@@ -4,9 +4,9 @@ import Tab from 'react-bootstrap/Tab';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
-import Container from 'react-bootstrap/Container'
 
 import * as accountActions from './ethereum/actions/createWallet';
+import * as crypto from  './utils/crypto';
 import Address from "./components/Address/Address";
 import Balance from "./components/Balance/Balance";
 import SendAsserts from "./components/SendAsserts/SendAsserts";
@@ -15,18 +15,25 @@ import Receive from "./components/Receive/Receive";
 import Contacts from "./components/Contacts/Contacts";
 import Chart from "./components/Chart/Chart";
 
-
 const Store = require('electron-store');
 const store = new Store();
 
 class App extends Component {
     constructor() {
         super();
-        const Account = store.get('pk');
+        const Wallet = store.get('wallet');
+        console.log(Wallet.eth[0].pk);
         this.state = {
-            account: accountActions.createAccFromPK(Account.pk),
+            account: accountActions.createAccFromPK(Wallet.eth[0].pk),
         };
     }
+
+
+    foo() {
+        const hw = crypto.encrypt("hello world");
+        console.log(crypto.decrypt(hw));
+    }
+
 
     render() {
         return (
@@ -35,7 +42,7 @@ class App extends Component {
                 <Tab.Container id="left-tabs-example" defaultActiveKey="first">
                     <Row>
                         <Col sm={2}>
-                            <Nav variant="pills" className="flex-column" >
+                            <Nav variant="pills" className="flex-column">
                                 <Nav.Item>
                                     <Nav.Link eventKey="Wallet">Wallet</Nav.Link>
                                 </Nav.Item>

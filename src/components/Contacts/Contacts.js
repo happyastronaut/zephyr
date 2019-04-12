@@ -5,9 +5,9 @@ import Button from "react-bootstrap/Button";
 import {ropstenRpcURL} from "../../ethereum/constants/nets";
 
 const Web3 = require('web3');
-const web3 = new Web3(ropstenRpcURL);
-
 const Store = require('electron-store');
+
+const web3 = new Web3(ropstenRpcURL);
 const store = new Store();
 
 class Contacts extends Component {
