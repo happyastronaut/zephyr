@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
 import Table from 'react-bootstrap/Table';
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import Button from '@material-ui/core/Button';
 import {ropstenRpcURL} from "../../ethereum/constants/nets";
+import FullScreenDialog from './FullScreenDialog';
+import ContactDialog from "./ContactDialog";
 
-const Web3 = require('web3');
+import Tr from './Tr';
+
 const Store = require('electron-store');
-
-const web3 = new Web3(ropstenRpcURL);
 const store = new Store();
+
 
 class Contacts extends Component {
 
@@ -30,35 +32,39 @@ class Contacts extends Component {
         });
     }
 
-    async addNewContact(event) {
-        event.preventDefault();
+    async addNewContact(item) {
 
-        const item = {
-            name: event.target.formName.value,
-            address: event.target.formAddress.value,
-        };
-
-        if (item.name) {
-            if (web3.utils.isAddress(item.address)) {
-                if (!this.state.contactsList.some(el => el.address === item.address)) {
-                    await this.setState({
-                        contactsList: [...this.state.contactsList, item],
-                    });
-                    store.set('contactsList', this.state);
-                    store.openInEditor();
-                    console.log("Added");
-                } else {
-                    console.log("Address already in list ");
-                }
-            } else {
-                console.log("Not address");
-            }
-        } else {
-            console.log("Empty name");
-        }
+        await this.setState({
+            contactsList: [...this.state.contactsList, item],
+        });
+        this.updateStore();
+        console.log("Added");
     };
 
+    async deleteContact(index) {
+        const action = event.target.getAttribute('data-action');
+        switch (action) {
+            case 'delete':
+                this.state.contactsList.splice(index, 1);
+                const newArr = this.state.contactsList;
+                await this.setState({
+                    contactsList: newArr,
+                });
+                break;
+            case 'update':
+                console.log('edit ' + index);
+                break;
+        }
+
+        this.updateStore();
+    }
+
+    updateStore() {
+        store.set('contactsList', this.state.contactsList);
+    }
+
     render() {
+        const that = this;
         return (
             <div>
                 <Table striped bordered responsive="sm" hover size="sm">
@@ -67,39 +73,27 @@ class Contacts extends Component {
                         <th>#</th>
                         <th>Name</th>
                         <th>Address</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     {
                         this.state.contactsList.map(function (item, index) {
                             return (
-                                <tr key={item.name.concat(item.address)}>
-                                    <td>{++index}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.address}</td>
-                                </tr>
+                                <Tr key={item.name.concat(item.address)} onClick={(index) => that.deleteContact(index)}
+                                    item={item} index={index}/>
                             )
                         })
                     }
                     </tbody>
                 </Table>
 
-                <Form onSubmit={this.addNewContact.bind(this)}>
-                    <Form.Group controlId="formName">
-                        <Form.Label>Name</Form.Label>
-                        <Form.Control type="text" placeholder="Contacts name"/>
-                    </Form.Group>
-                    <Form.Group controlId="formAddress">
-                        <Form.Control type="text" placeholder="Address"/>
-                        <Form.Text className="text-muted">
-                            Please review and ensure that you have entered the address correctly to avoid loss of funds
-                        </Form.Text>
-                    </Form.Group>
-                    <Button variant="primary" type="submit">Add</Button>
-                </Form>
+                <ContactDialog list={this.state.contactsList} onClick={this.addNewContact.bind(this)}/>
+
             </div>
         )
     }
 }
+
 
 export default Contacts;
