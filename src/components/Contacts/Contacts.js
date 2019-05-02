@@ -43,6 +43,7 @@ class Contacts extends Component {
 
     async deleteContact(index) {
         const action = event.target.getAttribute('data-action');
+        console.log(action);
         switch (action) {
             case 'delete':
                 this.state.contactsList.splice(index, 1);
