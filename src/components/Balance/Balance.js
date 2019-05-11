@@ -32,7 +32,7 @@ class Balance extends Component {
         return (
             <div>
                 <p>{balance} ETH</p>
-                <button onClick={() => this.checkBalance(this.props.address)}>Refresh</button>
+                <button onClick={() => this.checkBalance(this.props.pk)}>Refresh</button>
             </div>);
     }
 

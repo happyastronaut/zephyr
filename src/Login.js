@@ -9,16 +9,12 @@ import Tab from '@material-ui/core/Tab';
 
 import {withStyles} from '@material-ui/styles';
 
-import Main from './main';
-
-import * as accountActions from './ethereum/actions/createWallet';
-
 const styles = {
     form: {
         padding: 20,
         margin: 100,
         width: 500,
-        //height: 300,
+        //height: 350,
     },
     title: {
         padding: '0 0 20px 0',
@@ -35,9 +31,11 @@ const styles = {
     button: {
         width: '100%',
     },
-    error: {
-        padding: '15px 0 0 0',
-        color: 'red',
+    createButtonDiv: {
+        margin: '15px 0 0 0',
+    },
+    createButton: {
+        width: '100%',
     },
 
 };
@@ -46,32 +44,10 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            address: undefined,
-            redirect: false,
-            accountObj: undefined,
-            error: '',
+            pk: undefined,
             value: 0,
         };
     }
-
-    handleOnClick() {
-        console.log(this.state.address);
-        let wallet = undefined;
-        try {
-            wallet = accountActions.createAccFromPK(this.state.address);
-            console.log(wallet);
-            this.setState({
-                redirect: true,
-                accountObj: wallet,
-            });
-        }
-        catch (e) {
-            console.log("error");
-            this.setState({
-                error: "invalid private key",
-            });
-        }
-    };
 
     handleChange(event, value) {
         this.setState({
@@ -81,9 +57,6 @@ class Login extends Component {
     };
 
     render() {
-        if (this.state.redirect) {
-            return <Main account={this.state.accountObj}/>
-        }
         const {classes} = this.props;
         return (
             <div>
@@ -127,7 +100,7 @@ class Login extends Component {
                                         label="0x"
                                         variant="outlined"
                                         type={'password'}
-                                        onChange={e => this.setState({address: e.target.value})}
+                                        onChange={e => this.setState({pk: e.target.value})}
                                     />
                                 </div>
 
@@ -135,10 +108,9 @@ class Login extends Component {
                                     className={classes.button}
                                     variant="outlined"
                                     color="primary"
-                                    onClick={this.handleOnClick.bind(this)}>
+                                    onClick={() => this.props.onLoginClick(this.state.pk)}>
                                     Login
                                 </Button>
-                                <p className={classes.error}>{this.state.error}</p>
 
                             </div>
 
@@ -151,7 +123,7 @@ class Login extends Component {
                                         label="0x"
                                         variant="outlined"
                                         type={'password'}
-                                        onChange={e => this.setState({address: e.target.value})}
+                                        onChange={e => this.setState({pk: e.target.value})}
                                     />
                                 </div>
 
@@ -161,7 +133,7 @@ class Login extends Component {
                                         label="0x"
                                         variant="outlined"
                                         type={'password'}
-                                        onChange={e => this.setState({address: e.target.value})}
+                                        onChange={e => this.setState({pk: e.target.value})}
                                     />
                                 </div>
 
@@ -169,7 +141,8 @@ class Login extends Component {
                                     className={classes.button}
                                     variant="outlined"
                                     color="primary"
-                                    onClick={this.handleOnClick.bind(this)}>
+                                    // onClick={this.handleOnClick.bind(this)}
+                                >
                                     Login
                                 </Button>
                                 <p className={classes.error}>{this.state.error}</p>
@@ -177,9 +150,13 @@ class Login extends Component {
                             </div>
                             }
 
-                            <Button color="primary" className={classes.button}>
-                                Create new wallet
-                            </Button>
+                            <div className={classes.createButtonDiv}>
+                                <Button
+                                    className={classes.createButton} color="primary"
+                                >
+                                    Create new wallet
+                                </Button>
+                            </div>
 
                         </Paper>
                     </Grid>

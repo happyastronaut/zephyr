@@ -81,7 +81,7 @@ class Contacts extends Component {
                     {
                         this.state.contactsList.map(function (item, index) {
                             return (
-                                <Tr key={item.name.concat(item.address)} onClick={(index) => that.deleteContact(index)}
+                                <Tr key={item.name.concat(item.pk)} onClick={(index) => that.deleteContact(index)}
                                     item={item} index={index}/>
                             )
                         })

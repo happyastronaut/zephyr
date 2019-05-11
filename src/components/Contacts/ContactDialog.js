@@ -54,16 +54,16 @@ class ContactDialog extends Component {
     handleSave() {
         const item = {
             name: this.state.name,
-            address: this.state.address,
+            pk: this.state.address,
         };
 
         if (item.name) {
             if (web3.utils.isAddress(item.address)) {
-                if (!this.props.list.some(el => el.address === item.address)) {
+                if (!this.props.list.some(el => el.pk === item.address)) {
                     this.props.onClick(item);
                     this.setState({
                         name: '',
-                        address: '',
+                        pk: '',
                         open: false,
                         error: false,
                         errorMessage: '',
@@ -77,7 +77,7 @@ class ContactDialog extends Component {
             } else {
                 this.setState({
                     error: true,
-                    errorMessage: "Not address",
+                    errorMessage: "Not pk",
                 });
             }
         } else {
@@ -135,7 +135,7 @@ class ContactDialog extends Component {
                             variant="outlined"
                             id="contacts-address"
                             value={this.state.address}
-                            onChange={e => this.setState({address: e.target.value})}
+                            onChange={e => this.setState({pk: e.target.value})}
                         />
                     </FormControl>
                     {this.state.error ? <Notification message={this.state.errorMessage}/> : null}

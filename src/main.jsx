@@ -19,13 +19,13 @@ const Store = require('electron-store');
 const store = new Store();
 
 class Main extends Component {
-    constructor() {
-        super();
-        const Wallet = store.get('wallet');
-        console.log(Wallet.eth[0].pk);
-        this.state = {
-            account: accountActions.createAccFromPK(Wallet.eth[0].pk),
-        };
+    constructor(props) {
+        super(props);
+        // const Wallet = store.get('wallet');
+        // console.log(Wallet.eth[0].pk);
+        // this.state = {
+        //     account: accountActions.createAccFromPK(Wallet.eth[0].pk),
+        // };
     }
 
 
@@ -37,10 +37,10 @@ class Main extends Component {
 
 
     render() {
-        console.log(this.props.account);
+        const account = this.props.account;
         return (
             <div>
-                <Address address={this.state.account.address}/>
+                <Address address={account.address}/>
                 <Tab.Container defaultActiveKey="first">
                     <Row>
                         <Col sm={2}>
@@ -65,17 +65,17 @@ class Main extends Component {
                         <Col sm={10}>
                             <Tab.Content>
                                 <Tab.Pane eventKey="Wallet">
-                                    <Balance address={this.state.account.address}/>
+                                    <Balance address={account.address}/>
                                     <Chart/>
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="Send">
-                                    <SendAsserts account={this.state.account}/>
+                                    <SendAsserts account={account}/>
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="Receive">
-                                    <Receive address={this.state.account.address}/>
+                                    <Receive address={account.address}/>
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="History">
-                                    <TransactionsHistory address={this.state.account.address}/>
+                                    <TransactionsHistory address={account.address}/>
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="Contacts">
                                     <Contacts/>
