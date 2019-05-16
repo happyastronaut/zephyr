@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import {withStyles} from '@material-ui/styles';
 
@@ -44,7 +45,8 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            pk: undefined,
+            wallet: '',
+            password: undefined,
             value: 0,
         };
     }
@@ -55,6 +57,7 @@ class Login extends Component {
             error: '',
         });
     };
+
 
     render() {
         const {classes} = this.props;
@@ -120,20 +123,29 @@ class Login extends Component {
                                 <div className={classes.inputDiv}>
                                     <TextField
                                         className={classes.input}
-                                        label="0x"
+                                        select
+                                        label="Wallet"
                                         variant="outlined"
-                                        type={'password'}
-                                        onChange={e => this.setState({pk: e.target.value})}
-                                    />
+                                        value={this.state.wallet}
+                                        onChange={e => this.setState({wallet: e.target.value})}
+                                    >
+                                        {
+                                            this.props.walletList.map(option => (
+                                                <MenuItem key={option.name} value={option.pk}>
+                                                    {option.name}
+                                                </MenuItem>
+                                            ))
+                                        }
+                                    </TextField>
                                 </div>
 
                                 <div className={classes.inputDiv}>
                                     <TextField
                                         className={classes.input}
-                                        label="0x"
+                                        label="Password"
                                         variant="outlined"
                                         type={'password'}
-                                        onChange={e => this.setState({pk: e.target.value})}
+                                        onChange={e => this.setState({password: e.target.value})}
                                     />
                                 </div>
 
@@ -141,7 +153,7 @@ class Login extends Component {
                                     className={classes.button}
                                     variant="outlined"
                                     color="primary"
-                                    // onClick={this.handleOnClick.bind(this)}
+                                    onClick={() => this.props.onLoginClick1(this.state.wallet, this.state.password)}
                                 >
                                     Login
                                 </Button>
@@ -153,6 +165,7 @@ class Login extends Component {
                             <div className={classes.createButtonDiv}>
                                 <Button
                                     className={classes.createButton} color="primary"
+                                    onClick={() => this.props.onCreateClick()}
                                 >
                                     Create new wallet
                                 </Button>

@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 
 import * as accountActions from './ethereum/actions/createWallet';
-import * as crypto from  './utils/crypto';
+
 import Address from "./components/Address/Address";
 import Balance from "./components/Balance/Balance";
 import SendAsserts from "./components/SendAsserts/SendAsserts";
@@ -15,14 +15,14 @@ import Receive from "./components/Receive/Receive";
 import Contacts from "./components/Contacts/Contacts";
 import Chart from "./components/Chart/Chart";
 
-const Store = require('electron-store');
+const Store = require('electron-store'); //move me to app with contacts
 const store = new Store();
 
 class Main extends Component {
-    constructor(props) {
-        super(props);
-        // const Wallet = store.get('wallet');
-        // console.log(Wallet.eth[0].pk);
+    constructor() {
+        super();
+        //
+        //
         // this.state = {
         //     account: accountActions.createAccFromPK(Wallet.eth[0].pk),
         // };
@@ -35,12 +35,12 @@ class Main extends Component {
     }
 
 
-
     render() {
         const account = this.props.account;
         return (
             <div>
                 <Address address={account.address}/>
+                <p onClick={() => this.props.onLogoutClick()}>Logout</p>
                 <Tab.Container defaultActiveKey="first">
                     <Row>
                         <Col sm={2}>

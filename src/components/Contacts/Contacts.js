@@ -33,7 +33,6 @@ class Contacts extends Component {
     }
 
     async addNewContact(item) {
-
         await this.setState({
             contactsList: [...this.state.contactsList, item],
         });
