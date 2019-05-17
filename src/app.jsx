@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Login from './Login';
+import Login from './components/Login/Login';
 import * as accountActions from "./ethereum/actions/createWallet";
 import {BrowserRouter as Router, Redirect, HashRouter, Route, Link} from "react-router-dom";
 
@@ -36,7 +36,7 @@ class App extends Component {
         });
     }
 
-    handleOnLoginClick(pk) {
+    onLoginClickPrivateKey(pk) {
         let wallet = undefined;
         try {
             wallet = accountActions.createAccFromPK(pk);
@@ -54,7 +54,7 @@ class App extends Component {
         }
     }
 
-    handleOnLoginClick1(walletName, password){
+    onLoginClickSavedWallet(walletName, password){
         console.log(walletName, password);
     }
 
@@ -107,8 +107,8 @@ class App extends Component {
             case 'login':
                 return (
                     <Login
-                        onLoginClick={this.handleOnLoginClick.bind(this)}
-                        onLoginClick1={this.handleOnLoginClick1.bind(this)}
+                        onLoginClickPrivateKey={this.onLoginClickPrivateKey.bind(this)}
+                        onLoginClickSavedWallet={this.onLoginClickSavedWallet.bind(this)}
                         onCreateClick={this.handleOnCreateClick.bind(this)}
                         walletList={this.state.walletList}
                     />
