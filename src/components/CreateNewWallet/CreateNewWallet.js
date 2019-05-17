@@ -35,6 +35,7 @@ class CreateNewWallet extends Component {
         super();
         this.state = {
             name: '',
+            privateKey: undefined,
             password: '',
             confirmPassword: '',
         };
@@ -53,7 +54,7 @@ class CreateNewWallet extends Component {
             console.log('Passwords must match');
             return;
         }
-        this.props.createConfirmedWallet(this.state.name, this.state.password);
+        this.props.createConfirmedWallet(this.state.name, this.state.password, this.state.privateKey);
     }
 
     render() {
@@ -72,7 +73,9 @@ class CreateNewWallet extends Component {
                                     className={classes.title}
                                     variant="h5"
                                 >
-                                    Create new wallet
+                                    {
+                                        this.props.mtype === 0 && 'Create new wallet' || this.props.mtype === 1 && 'Import wallet'
+                                    }
                                 </Typography>
                                 <Typography
                                     className={classes.title}
@@ -91,6 +94,18 @@ class CreateNewWallet extends Component {
                                     onChange={e => this.setState({name: e.target.value})}
                                 />
                             </div>
+                            {
+                                this.props.mtype === 1 &&
+                                <div className={classes.inputDiv}>
+                                    <TextField
+                                        className={classes.input}
+                                        label="Private Key"
+                                        variant="outlined"
+                                        type={'password'}
+                                        onChange={e => this.setState({privateKey: e.target.value})}
+                                    />
+                                </div>
+                            }
                             <div className={classes.inputDiv}>
                                 <TextField
                                     className={classes.input}

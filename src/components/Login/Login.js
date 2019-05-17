@@ -100,6 +100,15 @@ class Login extends Component {
                                 </Button>
                             </div>
 
+                            <div className={classes.createButtonDiv}>
+                                <Button
+                                    className={classes.createButton} color="primary"
+                                    onClick={() => this.props.onImportClick()}
+                                >
+                                    Import wallet
+                                </Button>
+                            </div>
+
                         </Paper>
                     </Grid>
                 </Grid>

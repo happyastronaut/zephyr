@@ -52,16 +52,16 @@ class App extends Component {
         }
     }
 
-    onLoginClickSavedWallet(walletName, password){
+    onLoginClickSavedWallet(walletName, password) {
         const wallets = store.get('wallet.eth');
         let wallet = wallets.find(x => x.name === walletName);
 
-        if(wallet === undefined){
+        if (wallet === undefined) {
             console.log('error: corrupted file');
             return;
         }
 
-        if(wallet.password !== password){
+        if (wallet.password !== password) {
             console.log('error: wrong password');
             return;
         }
@@ -87,6 +87,13 @@ class App extends Component {
         });
     }
 
+    handleOnImportClick() {
+        this.setState({
+            route: 'import',
+        });
+    }
+
+
     handleOnLogoutClick() {
         this.setState({
             isLogged: false,
@@ -100,20 +107,26 @@ class App extends Component {
         });
     }
 
-    async createNewWallet(name, password) {
-        const ethWallet = accountActions.createAcc();
-        const newWallet = {
-            name: name,
-            password: password,
-            pk: ethWallet.privateKey,
-        };
-        await this.setState({
-            walletList: [...this.state.walletList, newWallet],
-        });
-        store.set('wallet.eth', this.state.walletList);
-        this.setState({
-            route: 'login',
-        });
+    async createNewWallet(name, password, privateKey = undefined) {
+        if (privateKey === undefined) {
+            const ethWallet = accountActions.createAcc();
+            const newWallet = {
+                name: name,
+                password: password,
+                pk: ethWallet.privateKey,
+            };
+            await this.setState({
+                walletList: [...this.state.walletList, newWallet],
+            });
+            store.set('wallet.eth', this.state.walletList);
+            this.setState({
+                route: 'login',
+            });
+            console.log('success');
+        }
+        else {
+            console.log('import');
+        }
     }
 
     render() {
@@ -133,16 +146,26 @@ class App extends Component {
                         onLoginClickPrivateKey={this.onLoginClickPrivateKey.bind(this)}
                         onLoginClickSavedWallet={this.onLoginClickSavedWallet.bind(this)}
                         onCreateClick={this.handleOnCreateClick.bind(this)}
+                        onImportClick={this.handleOnImportClick.bind(this)}
                         walletList={this.state.walletList}
                     />
                 );
             case 'create':
                 return (
                     <CreateNewWallet
+                        mtype={0}
                         createConfirmedWallet={this.createNewWallet.bind(this)}
                         onBackClick={this.handleOnBack.bind(this)}
                     />
-                )
+                );
+            case 'import':
+                return (
+                    <CreateNewWallet
+                        mtype={1}
+                        createConfirmedWallet={this.createNewWallet.bind(this)}
+                        onBackClick={this.handleOnBack.bind(this)}
+                    />
+                );
         }
     };
 }

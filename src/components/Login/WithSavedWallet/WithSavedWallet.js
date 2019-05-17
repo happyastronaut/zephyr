@@ -66,7 +66,6 @@ class WithSavedWallet extends Component {
                 >
                     Login
                 </Button>
-
             </div>
         )
     }
