@@ -40,7 +40,7 @@ class WithSavedWallet extends Component {
                     >
                         {
                             this.props.walletList.map(option => (
-                                <MenuItem key={option.name} value={option.pk}>
+                                <MenuItem key={option.name} value={option.name}>
                                     {option.name}
                                 </MenuItem>
                             ))

@@ -15,8 +15,7 @@ class App extends Component {
 
     constructor(props) {
         super(props);
-
-        store.openInEditor();
+        //store.openInEditor();
         this.state = {
             route: 'login',
             isLogged: false,
@@ -40,7 +39,6 @@ class App extends Component {
         let wallet = undefined;
         try {
             wallet = accountActions.createAccFromPK(pk);
-            console.log(wallet);
             this.setState({
                 accountObj: wallet,
                 isLogged: true,
@@ -55,7 +53,32 @@ class App extends Component {
     }
 
     onLoginClickSavedWallet(walletName, password){
-        console.log(walletName, password);
+        const wallets = store.get('wallet.eth');
+        let wallet = wallets.find(x => x.name === walletName);
+
+        if(wallet === undefined){
+            console.log('error: corrupted file');
+            return;
+        }
+
+        if(wallet.password !== password){
+            console.log('error: wrong password');
+            return;
+        }
+
+        try {
+            wallet = accountActions.createAccFromPK(wallet.pk);
+            this.setState({
+                accountObj: wallet,
+                isLogged: true,
+            });
+        }
+        catch (e) {
+            console.log("error");
+            this.setState({
+                error: "invalid private key",
+            });
+        }
     }
 
     handleOnCreateClick() {
