@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
+import Main from './main';
 import Login from './components/Login/Login';
+import CreateNewWallet from "./components/CreateNewWallet/CreateNewWallet";
 import * as accountActions from "./ethereum/actions/createWallet";
+import * as crypto from './utils/crypto';
 
 import { withSnackbar } from 'notistack';
-
-import Main from './main';
-import CreateNewWallet from "./components/CreateNewWallet/CreateNewWallet";
-
-import * as crypto from './utils/crypto';
 
 const Store = require('electron-store');
 const store = new Store();
@@ -16,7 +14,7 @@ class App extends Component {
 
     constructor(props) {
         super(props);
-        store.openInEditor();
+        // store.openInEditor();
         this.state = {
             route: 'login',
             isLogged: false,
@@ -156,7 +154,7 @@ class App extends Component {
             route: 'login',
         });
         this.props.enqueueSnackbar(message, {
-            variant: 'info',
+            variant: 'success',
         });
     }
 
@@ -207,4 +205,4 @@ class App extends Component {
 export default withSnackbar(App);
 
 
-//TODO: 2) add notifications  4) finish frontend
+//TODO: 5) fixme: fix error notif when wallet not set

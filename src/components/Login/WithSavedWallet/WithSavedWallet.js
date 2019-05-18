@@ -22,7 +22,15 @@ class WithSavedWallet extends Component {
         super(props);
         this.state = {
             wallet: '',
+            password: '',
         };
+    }
+
+    checkPassword(){
+        if(this.state.wallet === '' || this.state.password === ''){
+            return;
+        }
+        this.props.onLoginClickSavedWallet(this.state.wallet, this.state.password);
     }
 
     render() {
@@ -73,7 +81,7 @@ class WithSavedWallet extends Component {
                     className={classes.button}
                     variant="outlined"
                     color="primary"
-                    onClick={() => this.props.onLoginClickSavedWallet(this.state.wallet, this.state.password)}
+                    onClick={() => this.checkPassword()}
                 >
                     Login
                 </Button>

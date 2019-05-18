@@ -6,6 +6,9 @@ import Typography from '@material-ui/core/Typography';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
+import AddIcon from '@material-ui/icons/AddCircleOutline';
+import ImportIcon from '@material-ui/icons/ArrowDownward'
+
 import WithPrivateKey from './WithPrivateKey/WithPrivateKey';
 import WithSavedWallet from './WithSavedWallet/WithSavedWallet';
 
@@ -30,6 +33,9 @@ const styles = {
     createButton: {
         width: '100%',
     },
+    buttonIcon: {
+        margin: '0 15px 0 0 ',
+    },
 
 };
 
@@ -52,16 +58,20 @@ class Login extends Component {
         const {classes} = this.props;
         return (
             <div>
-                <Grid container={true}
-                      direction="row"
-                      justify="center"
-                      alignItems="center">
+                <Grid
+                    container
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                >
                     <Grid>
                         <Paper className={classes.form} elevation={5}>
 
                             <Typography
                                 className={classes.title}
                                 variant="h5"
+                                color={"primary"}
+                                align={"center"}
                             >
                                 Login:
                             </Typography>
@@ -75,39 +85,47 @@ class Login extends Component {
                                 onChange={this.handleChange.bind(this)}
                             >
                                 <Tab
-                                    label="Private key"
+                                    label="Saved wallet"
                                 />
                                 <Tab
-                                    label="Saved wallet"
+                                    label="Private key"
                                 />
                             </Tabs>
 
                             {this.state.value === 0 &&
-                            <WithPrivateKey onLoginClickPrivateKey={this.props.onLoginClickPrivateKey}/>
-                            }
-
-                            {this.state.value === 1 &&
                             <WithSavedWallet walletList={this.props.walletList}
                                              onLoginClickSavedWallet={this.props.onLoginClickSavedWallet}/>
                             }
 
-                            <div className={classes.createButtonDiv}>
-                                <Button
-                                    className={classes.createButton} color="primary"
-                                    onClick={() => this.props.onCreateClick()}
-                                >
-                                    Create new wallet
-                                </Button>
-                            </div>
+                            {this.state.value === 1 &&
+                            <WithPrivateKey onLoginClickPrivateKey={this.props.onLoginClickPrivateKey}/>
+                            }
 
-                            <div className={classes.createButtonDiv}>
-                                <Button
-                                    className={classes.createButton} color="primary"
-                                    onClick={() => this.props.onImportClick()}
-                                >
-                                    Import wallet
-                                </Button>
-                            </div>
+                            <Grid container spacing={24}>
+                                <Grid item xs>
+                                    <div className={classes.createButtonDiv}>
+                                        <Button
+                                            className={classes.createButton} color="primary"
+                                            onClick={() => this.props.onCreateClick()}
+                                        >
+                                            <AddIcon className={classes.buttonIcon}/>
+                                            Create new wallet
+                                        </Button>
+                                    </div>
+                                </Grid>
+
+                                <Grid item xs>
+                                    <div className={classes.createButtonDiv}>
+                                        <Button
+                                            className={classes.createButton} color="primary"
+                                            onClick={() => this.props.onImportClick()}
+                                        >
+                                            <ImportIcon className={classes.buttonIcon}/>
+                                            Import wallet
+                                        </Button>
+                                    </div>
+                                </Grid>
+                            </Grid>
 
                         </Paper>
                     </Grid>
