@@ -28,13 +28,6 @@ class Main extends Component {
         // };
     }
 
-
-    foo() {
-        const hw = crypto.encrypt("hello world");
-        console.log(crypto.decrypt(hw));
-    }
-
-
     render() {
         const account = this.props.account;
         return (

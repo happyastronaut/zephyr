@@ -27,9 +27,12 @@ class WithSavedWallet extends Component {
 
     render() {
         const {classes} = this.props;
+        let walletList = this.props.walletList;
+
         return (
             <div>
                 <div className={classes.inputDiv}>
+                    {walletList !== undefined &&
                     <TextField
                         className={classes.input}
                         select
@@ -39,15 +42,23 @@ class WithSavedWallet extends Component {
                         onChange={e => this.setState({wallet: e.target.value})}
                     >
                         {
-                            this.props.walletList.map(option => (
+                            walletList !== undefined &&
+                            walletList.map(option => (
                                 <MenuItem key={option.name} value={option.name}>
                                     {option.name}
                                 </MenuItem>
                             ))
                         }
                     </TextField>
+                    ||
+                    <TextField
+                        label="Wallet"
+                        variant="outlined"
+                        className={classes.input}
+                        disabled={true}
+                    />
+                    }
                 </div>
-
                 <div className={classes.inputDiv}>
                     <TextField
                         className={classes.input}
