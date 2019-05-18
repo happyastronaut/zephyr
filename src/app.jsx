@@ -3,6 +3,8 @@ import Login from './components/Login/Login';
 import * as accountActions from "./ethereum/actions/createWallet";
 import {BrowserRouter as Router, Redirect, HashRouter, Route, Link} from "react-router-dom";
 
+import { withSnackbar } from 'notistack';
+
 import Main from './main';
 import CreateNewWallet from "./components/CreateNewWallet/CreateNewWallet";
 
@@ -53,17 +55,21 @@ class App extends Component {
     }
 
     onLoginClickSavedWallet(walletName, password) {
-
         const wallets = store.get('wallet.eth');
         let wallet = wallets.find(x => x.name === walletName);
 
         if (wallet === undefined) {
-            console.log('error: corrupted file');
+            this.props.enqueueSnackbar('Account file is corrupted', {
+                variant: 'error',
+            });
             return;
         }
 
         const hash = crypto.createSha256Hash();
         if (wallet.password !== hash.update(password).digest('hex')) {
+            this.props.enqueueSnackbar('Wrong password', {
+                variant: 'error',
+            });
             console.log('error: wrong password');
             return;
         }
@@ -77,10 +83,10 @@ class App extends Component {
             });
         }
         catch (e) {
-            console.log("error");
-            this.setState({
-                error: "invalid private key",
+            this.props.enqueueSnackbar('Invalid private key', {
+                variant: 'error',
             });
+            console.log("error: Invalid private key");
         }
     }
 
@@ -95,7 +101,6 @@ class App extends Component {
             route: 'import',
         });
     }
-
 
     handleOnLogoutClick() {
         this.setState({
@@ -113,7 +118,7 @@ class App extends Component {
     async createNewWallet(name, password, privateKey = undefined) {
         const hash = crypto.createSha256Hash();
         const hashPassword = hash.update(password).digest('hex');
-        let ethWallet, newWallet;
+        let ethWallet, newWallet, message;
 
         const wallets = store.get('wallet.eth');
         let wallet = wallets.filter(x => x.name === name);
@@ -126,6 +131,7 @@ class App extends Component {
                 password: hashPassword,
                 pk: crypto.encrypt(ethWallet.privateKey, password),
             };
+            message = 'Wallet created and added to your account';
         }
         else {
             newWallet = {
@@ -133,6 +139,7 @@ class App extends Component {
                 password: hashPassword,
                 pk: crypto.encrypt(privateKey, password),
             };
+            message = 'Wallet imported to your account';
         }
 
         if (this.state.walletList !== undefined) {
@@ -149,7 +156,9 @@ class App extends Component {
         this.setState({
             route: 'login',
         });
-        console.log('success');
+        this.props.enqueueSnackbar(message, {
+            variant: 'info',
+        });
     }
 
     render() {
@@ -158,6 +167,7 @@ class App extends Component {
                 <Main
                     account={this.state.accountObj}
                     onLogoutClick={this.handleOnLogoutClick.bind(this)}
+                    enqueueSnackbar={this.props.enqueueSnackbar}
                 />
             )
         }
@@ -179,6 +189,7 @@ class App extends Component {
                         mtype={0}
                         createConfirmedWallet={this.createNewWallet.bind(this)}
                         onBackClick={this.handleOnBack.bind(this)}
+                        enqueueSnackbar={this.props.enqueueSnackbar}
                     />
                 );
             case 'import':
@@ -187,13 +198,14 @@ class App extends Component {
                         mtype={1}
                         createConfirmedWallet={this.createNewWallet.bind(this)}
                         onBackClick={this.handleOnBack.bind(this)}
+                        enqueueSnackbar={this.props.enqueueSnackbar}
                     />
                 );
         }
     };
 }
 
-export default App;
+export default withSnackbar(App);
 
 
 //TODO: 2) add notifications  4) finish frontend

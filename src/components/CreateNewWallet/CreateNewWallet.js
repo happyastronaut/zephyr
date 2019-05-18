@@ -43,14 +43,30 @@ class CreateNewWallet extends Component {
 
     checkPasswords() {
         if (this.state.name.length < 1) {
+            this.props.enqueueSnackbar('Name must not be empty', {
+                variant: 'error',
+            });
             console.log('length err');
             return;
         }
+        if(this.props.mtype === 1 && this.state.privateKey === undefined){
+            this.props.enqueueSnackbar('Wrong private key', {
+                variant: 'error',
+            });
+            console.log('Wrong private key');
+            return;
+        }
         if (this.state.password.length < 6) {
-            console.log('Password must be longer then 6 symbols');
+            this.props.enqueueSnackbar('Password must be longer than 6 symbols', {
+                variant: 'error',
+            });
+            console.log('Password must be longer than 6 symbols');
             return;
         }
         if (this.state.password !== this.state.confirmPassword) {
+            this.props.enqueueSnackbar('Passwords must match', {
+                variant: 'error',
+            });
             console.log('Passwords must match');
             return;
         }

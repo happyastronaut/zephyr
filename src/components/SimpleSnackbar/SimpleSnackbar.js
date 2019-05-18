@@ -18,12 +18,12 @@ class SimpleSnackbar extends React.Component {
         super();
         this.state = {
             open: false,
-        }
+        };
     }
 
     handleClick() {
         this.setState({open: true});
-    };
+    }
 
     handleClose(event, reason) {
         if (reason === 'clickaway') {
@@ -31,7 +31,7 @@ class SimpleSnackbar extends React.Component {
         }
 
         this.setState({open: false});
-    };
+    }
 
     render() {
         const {classes} = this.props;
@@ -51,6 +51,9 @@ class SimpleSnackbar extends React.Component {
                     }}
                     message={<span id="message-id">Note archived</span>}
                     action={[
+                        <Button key="undo" color="secondary" size="small" onClick={() => this.handleClose()}>
+                            UNDO
+                        </Button>,
                         <IconButton
                             key="close"
                             aria-label="Close"
