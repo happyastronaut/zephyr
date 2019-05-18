@@ -5,7 +5,7 @@ import CreateNewWallet from "./components/CreateNewWallet/CreateNewWallet";
 import * as accountActions from "./ethereum/actions/createWallet";
 import * as crypto from './utils/crypto';
 
-import { withSnackbar } from 'notistack';
+import {withSnackbar} from 'notistack';
 
 const Store = require('electron-store');
 const store = new Store();
@@ -119,7 +119,7 @@ class App extends Component {
 
         const wallets = store.get('wallet.eth');
         let wallet = wallets.filter(x => x.name === name);
-        if(wallet.length > 0) name = `${name}(${wallet.length})`;
+        if (wallet.length > 0) name = `${name}(${wallet.length})`;
 
         if (privateKey === undefined) {
             ethWallet = accountActions.createAcc();
@@ -203,6 +203,3 @@ class App extends Component {
 }
 
 export default withSnackbar(App);
-
-
-//TODO: 5) fixme: fix error notif when wallet not set

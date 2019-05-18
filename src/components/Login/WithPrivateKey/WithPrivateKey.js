@@ -24,8 +24,8 @@ class WithPrivateKey extends Component {
         };
     }
 
-    checkPassword(){
-        if(this.state.privateKey === undefined || this.state.privateKey === ''){
+    checkPassword() {
+        if (this.state.privateKey === undefined || this.state.privateKey === '') {
             return;
         }
         this.props.onLoginClickPrivateKey(this.state.privateKey);

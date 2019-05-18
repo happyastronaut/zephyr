@@ -26,8 +26,8 @@ class WithSavedWallet extends Component {
         };
     }
 
-    checkPassword(){
-        if(this.state.wallet === '' || this.state.password === ''){
+    checkPassword() {
+        if (this.state.wallet === '' || this.state.password === '') {
             return;
         }
         this.props.onLoginClickSavedWallet(this.state.wallet, this.state.password);
