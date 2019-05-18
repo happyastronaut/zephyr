@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import Login from './components/Login/Login';
 import * as accountActions from "./ethereum/actions/createWallet";
-import {BrowserRouter as Router, Redirect, HashRouter, Route, Link} from "react-router-dom";
 
 import { withSnackbar } from 'notistack';
 
