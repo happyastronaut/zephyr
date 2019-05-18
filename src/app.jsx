@@ -8,8 +8,6 @@ import CreateNewWallet from "./components/CreateNewWallet/CreateNewWallet";
 
 import * as crypto from './utils/crypto';
 
-const cryptoNode = require('crypto');
-
 const Store = require('electron-store');
 const store = new Store();
 
@@ -64,7 +62,7 @@ class App extends Component {
             return;
         }
 
-        const hash = cryptoNode.createHash('sha256');
+        const hash = crypto.createSha256Hash();
         if (wallet.password !== hash.update(password).digest('hex')) {
             console.log('error: wrong password');
             return;
@@ -113,7 +111,7 @@ class App extends Component {
     }
 
     async createNewWallet(name, password, privateKey = undefined) {
-        const hash = cryptoNode.createHash('sha256');
+        const hash = crypto.createSha256Hash();
         const hashPassword = hash.update(password).digest('hex');
         let ethWallet, newWallet;
 
@@ -135,7 +133,7 @@ class App extends Component {
             };
         }
 
-        if (this.state.walletList === []) {
+        if (this.state.walletList !== undefined) {
             await this.setState({
                 walletList: [...this.state.walletList, newWallet],
             });

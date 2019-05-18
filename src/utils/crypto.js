@@ -13,5 +13,9 @@ module.exports = {
         let dec = decipher.update(text, 'hex', 'utf8');
         dec += decipher.final('utf8');
         return dec;
-    }
+    },
+
+    createSha256Hash: () => {
+        return crypto.createHash('sha256');
+    },
 };
