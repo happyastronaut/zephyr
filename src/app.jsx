@@ -5,6 +5,8 @@ import CreateNewWallet from "./components/CreateNewWallet/CreateNewWallet";
 import * as accountActions from "./ethereum/actions/createWallet";
 import * as crypto from './utils/crypto';
 
+import Grid from '@material-ui/core/Grid';
+
 import {withSnackbar} from 'notistack';
 
 const Store = require('electron-store');
@@ -162,11 +164,13 @@ class App extends Component {
     render() {
         if (this.state.isLogged) {
             return (
-                <Main
-                    account={this.state.accountObj}
-                    onLogoutClick={this.handleOnLogoutClick.bind(this)}
-                    enqueueSnackbar={this.props.enqueueSnackbar}
-                />
+                <Grid container style={{height: '100vh'}}>
+                    <Main
+                        account={this.state.accountObj}
+                        onLogoutClick={this.handleOnLogoutClick.bind(this)}
+                        enqueueSnackbar={this.props.enqueueSnackbar}
+                    />
+                </Grid>
             )
         }
 
