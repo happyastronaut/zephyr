@@ -5,27 +5,17 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 
-import * as accountActions from './ethereum/actions/createWallet';
-
-import Address from "./components/Address/Address";
-import Balance from "./components/Balance/Balance";
-import SendAsserts from "./components/SendAsserts/SendAsserts";
-import TransactionsHistory from "./components/TransactionsHistory/TransactionsHistory";
-import Receive from "./components/Receive/Receive";
-import Contacts from "./components/Contacts/Contacts";
-import Chart from "./components/Chart/Chart";
-
-const Store = require('electron-store'); //move me to app with contacts
-const store = new Store();
+import Address from "../components/Address/Address";
+import Balance from "../components/Balance/Balance";
+import SendAsserts from "../components/SendAsserts/SendAsserts";
+import TransactionsHistory from "../components/TransactionsHistory/TransactionsHistory";
+import Receive from "../components/Receive/Receive";
+import Contacts from "../components/Contacts/Contacts";
+import Chart from "../components/Chart/Chart";
 
 class Main extends Component {
     constructor() {
         super();
-        //
-        //
-        // this.state = {
-        //     account: accountActions.createAccFromPK(Wallet.eth[0].pk),
-        // };
     }
 
     render() {

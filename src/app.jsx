@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Main from './main';
+import Main from './Main/Main';
 import Login from './components/Login/Login';
 import CreateNewWallet from "./components/CreateNewWallet/CreateNewWallet";
 import * as accountActions from "./ethereum/actions/createWallet";
@@ -32,6 +32,7 @@ class App extends Component {
             walletList: wallets,
             contactList: contacts,
         });
+        this.onLoginClickPrivateKey('0x7cc936b609b30ad652a5fe88c0574a6ec63f9e2d577f577acdd935100bf37af9'); //DEBUG
     }
 
     onLoginClickPrivateKey(pk) {
