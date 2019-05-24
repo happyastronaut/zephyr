@@ -1,13 +1,34 @@
 import React, {Component} from 'react';
 import {AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from 'recharts';
 
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import {withStyles} from '@material-ui/styles';
+
+const styles = {
+    container: {
+        marginTop: '24px',
+        height: '40vh',
+    },
+    header: {
+        padding: '15px 0 0 25px',
+        margin: '15px',
+    },
+    chartContainer: {
+        height: '100%',
+        padding: 15,
+    },
+};
+
 class Chart extends Component {
 
     constructor() {
         super();
         this.state = {
             data: [],
-        }
+            lastPrice: 0,
+        };
     }
 
     componentDidMount() {
@@ -24,35 +45,48 @@ class Chart extends Component {
                 price: item.close,
             }
         });
-        this.setState({
+        await this.setState({
             data: selected,
+            lastPrice: selected[length].price,
         });
     }
 
     //http://recharts.org/en-US/examples/AreaResponsiveContainer
     render() {
+        const {classes} = this.props;
         return (
-            <div style={{ minWidth: '10px', width: '100%', minHeight: '10px', height: 200 }}>
-                <h3>ETH price chart</h3>
-                <ResponsiveContainer>
-                    <AreaChart
-                        data={this.state.data}
-                        margin={{
-                            top: 10, right: 30, left: 0, bottom: 0,
-                        }}
-                    >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="time" />
-                        <YAxis />
-                        <Tooltip />
-                        <Area type="monotone" dataKey="price" stroke="#8884d8" fill="#8884d8" />
-                        <Tooltip/>
-                    </AreaChart>
-                </ResponsiveContainer>
-            </div>
+            <Paper elevation={5}>
+                <Grid container className={classes.container}>
+
+                    <Grid item xs={12} className={classes.header}>
+                        <Typography align={"left"} variant={'h5'}>Market
+                            price: {this.state.lastPrice}$</Typography>
+                    </Grid>
+
+                    <Grid item xs={12} className={classes.chartContainer}>
+                        <ResponsiveContainer>
+                            <AreaChart
+                                data={this.state.data}
+                                margin={{
+                                    top: 10, right: 30, left: 0, bottom: 40,
+                                }}
+                            >
+                                <CartesianGrid strokeDasharray="3 3"/>
+                                <XAxis dataKey="time"/>
+                                <YAxis domain={['dataMin', 'dataMax']}/>
+                                <Tooltip/>
+                                <Area type="monotone" dataKey="price" stroke="#8884d8" fill="#8884d8"/>
+                                <Tooltip/>
+                            </AreaChart>
+                        </ResponsiveContainer>
+                    </Grid>
+
+                </Grid>
+
+            </Paper>
         )
     }
 
 }
 
-export default Chart;
+export default withStyles(styles)(Chart);

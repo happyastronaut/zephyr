@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
@@ -30,9 +31,12 @@ const styles = {
     wrapperDiv: {
         display: 'flex',
     },
+    header: {
+        // height: '10px',
+    },
     container: {
-        height: '100%',
-        'background-color': '#ffffff',
+        height: '100vh',
+
     },
     tab: {
         flexContainer: {
@@ -43,14 +47,19 @@ const styles = {
         },
     },
     tabs: {
+        height: '100vh',
+        width: '150px',
+        backgroundColor: '#cbd6f9',
         flexContainer: {
             flexDirection: 'column'
         },
         indicator: {
             display: 'none',
         },
-        'background-color': '#e5eef9',
-        height: '100%',
+    },
+    chart: {
+        padding: '5px 0 50px 0',
+
     },
 };
 
@@ -58,7 +67,7 @@ class Main extends Component {
     constructor() {
         super();
         this.state = {
-            activeIndex: 0,
+            activeIndex: 2,
         };
     }
 
@@ -71,65 +80,85 @@ class Main extends Component {
         const {activeIndex} = this.state;
         const {classes} = this.props;
         return (
-            <Grid
-                container
-                className={classes.container}
-            >
-                <div className={classes.wrapperDiv}>
-                    <div>
-                        <VerticalTabs
-                            value={activeIndex}
-                            onChange={this.handleChange.bind(this)}
-                            className={classes.tabs}
-                        >
-                            <Tab className={classes.tab} label={'Wallet'} icon={<WalletIcon/>}/>
-                            <Tab className={classes.tab} label={'Send'} icon={<SendIcon/>}/>
-                            <Tab className={classes.tab} label={'Receive'} icon={<ReceiveIcon/>}/>
-                            <Tab className={classes.tab} label={'Contacts'} icon={<ContactsIcon/>}/>
-                            <Tab className={classes.tab} label={'Transactions'} icon={<TransactionsIcon/>}/>
-                            <Tab className={classes.tab} label={'Settings'} icon={<SettingsIcon/>}/>
-                            <Tab className={classes.tab} label={'Logout'} icon={<LogoutIcon/>}
-                                 onClick={() => this.props.onLogoutClick()}/>
-                        </VerticalTabs>
+            <Grid>
+                <Grid container className={classes.container}>
+                    <Grid item xs={12} className={classes.wrapperDiv}>
+                        <Grid item xs={2}>
+                            <VerticalTabs
+                                value={activeIndex}
+                                onChange={this.handleChange.bind(this)}
+                                className={classes.tabs}
+                            >
+                                <Tab className={classes.tab} label={'Wallet'} icon={<WalletIcon/>}/>
+                                <Tab className={classes.tab} label={'Send'} icon={<SendIcon/>}/>
+                                <Tab className={classes.tab} label={'Receive'} icon={<ReceiveIcon/>}/>
+                                <Tab className={classes.tab} label={'Contacts'} icon={<ContactsIcon/>}/>
+                                <Tab className={classes.tab} label={'Transactions'} icon={<TransactionsIcon/>}/>
+                                <Tab className={classes.tab} label={'Settings'} icon={<SettingsIcon/>}/>
+                                <Tab className={classes.tab} label={'Logout'} icon={<LogoutIcon/>}
+                                     onClick={() => this.props.onLogoutClick()}/>
+                            </VerticalTabs>
+                        </Grid>
 
-                    </div>
-                    {activeIndex === 0 &&
-                    <TabContainer>
-                        <Address address={account.address}/>
-                    </TabContainer>
-                    }
+                        <Grid item xs={12}>
+                            {activeIndex === 0 &&
+                            <TabContainer>
 
-                    {activeIndex === 1 &&
-                    <TabContainer>
-                        <SendAsserts/>
-                    </TabContainer>
-                    }
+                                <Grid container spacing={24}>
+                                    <Grid item xs={8}>
+                                        <Address
+                                            enqueueSnackbar={this.props.enqueueSnackbar}
+                                            address={account.address}
+                                        />
+                                    </Grid>
 
-                    {activeIndex === 2 &&
-                    <TabContainer>
-                        <Receive/>
-                    </TabContainer>
-                    }
+                                    <Grid item xs={4}>
+                                        <Balance address={account.address}/>
+                                    </Grid>
 
-                    {activeIndex === 3 &&
-                    <TabContainer>
-                        <Contacts/>
-                    </TabContainer>
-                    }
+                                </Grid>
 
-                    {activeIndex === 4 &&
-                    <TabContainer>
-                        <TransactionsHistory address={account.address}/>
-                    </TabContainer>
-                    }
+                                <Grid item xs={12}>
+                                    <Chart/>
+                                </Grid>
 
-                    {activeIndex === 5 &&
-                    <TabContainer>
 
-                    </TabContainer>
-                    }
+                            </TabContainer>
+                            }
 
-                </div>
+                            {activeIndex === 1 &&
+                            <TabContainer>
+                                <SendAsserts/>
+                            </TabContainer>
+                            }
+
+                            {activeIndex === 2 &&
+                            <TabContainer>
+                                <Receive address={account.address}/>
+                            </TabContainer>
+                            }
+
+                            {activeIndex === 3 &&
+                            <TabContainer>
+                                <Contacts/>
+                            </TabContainer>
+                            }
+
+                            {activeIndex === 4 &&
+                            <TabContainer>
+                                <TransactionsHistory address={account.address}/>
+                            </TabContainer>
+                            }
+
+                            {activeIndex === 5 &&
+                            <TabContainer>
+
+                            </TabContainer>
+                            }
+                        </Grid>
+
+                    </Grid>
+                </Grid>
             </Grid>
         );
     }
