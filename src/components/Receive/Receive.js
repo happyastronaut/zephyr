@@ -26,7 +26,7 @@ class Receive extends Component {
     render() {
         const {classes} = this.props;
         return (
-            <Paper className={classes.root}>
+            <Paper elevation={5} className={classes.root}>
                 <Grid container>
                     <Grid item xs={12}>
                         <Typography className={classes.header} color={'primary'} align={"center"}

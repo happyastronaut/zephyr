@@ -7,7 +7,7 @@ const web3 = new Web3(ropstenRpcURL);
 
 module.exports = {
 
-    sendAsserts: async (senderAddress, senderPK, receiverAddress, amount) => {
+    sendAsserts: async (senderAddress, senderPK, receiverAddress, amount, setGasPrice = '10', setGasLimit = 21000) => {
         const txCount = await web3.eth.getTransactionCount(senderAddress);
 
         const slicedPK = senderPK.slice(2, senderPK.length);
@@ -17,8 +17,8 @@ module.exports = {
             nonce: web3.utils.toHex(txCount),
             to: receiverAddress,
             value: web3.utils.toHex(web3.utils.toWei(amount, 'ether')),
-            gasLimit: web3.utils.toHex(21000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei'))
+            gasLimit: web3.utils.toHex(setGasLimit),
+            gasPrice: web3.utils.toHex(web3.utils.toWei(setGasPrice, 'gwei'))
         };
 
         const tx = new Tx(txObject);

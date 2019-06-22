@@ -67,7 +67,7 @@ class Main extends Component {
     constructor() {
         super();
         this.state = {
-            activeIndex: 2,
+            activeIndex: 1,
         };
     }
 
@@ -79,6 +79,7 @@ class Main extends Component {
         const account = this.props.account;
         const {activeIndex} = this.state;
         const {classes} = this.props;
+        console.log( this.props.account);
         return (
             <Grid>
                 <Grid container className={classes.container}>
@@ -128,7 +129,11 @@ class Main extends Component {
 
                             {activeIndex === 1 &&
                             <TabContainer>
-                                <SendAsserts/>
+                                <SendAsserts
+                                    address={account.address}
+                                    privateKey={account.privateKey}
+                                    enqueueSnackbar={this.props.enqueueSnackbar}
+                                />
                             </TabContainer>
                             }
 
