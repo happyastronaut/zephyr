@@ -12,7 +12,7 @@ import Delete from '@material-ui/icons/Delete';
 
 import IconButton from '@material-ui/core/IconButton';
 
-//import MaterialTable from "material-table";
+import MaterialTable from "material-table";
 
 import {withStyles} from '@material-ui/styles';
 
@@ -31,39 +31,85 @@ const useStyles = {
 
 class Contacts extends Component {
 
+    constructor() {
+        super();
+        this.state = {
+
+            columns: [
+                {title: 'Name', field: 'name'},
+                {title: 'Surname', field: 'surname'},
+                {title: 'Birth Year', field: 'birthYear', type: 'numeric'},
+                {
+                    title: 'Birth Place',
+                    field: 'birthCity',
+                    lookup: {34: 'İstanbul', 63: 'Şanlıurfa'},
+                },
+            ],
+
+            data: [
+                {name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63},
+                {
+                    name: 'Zerya Betül',
+                    surname: 'Baran',
+                    birthYear: 2017,
+                    birthCity: 34,
+                },
+            ],
+        };
+    }
+
     onEdit(index) {
         console.log("edit" + index);
     }
 
     render() {
+
         const {classes} = this.props;
         let contactList = this.props.contactList;
 
         return (
 
-            <Paper className={classes.root}>
-                <Table  className={classes.table}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="center">#</TableCell>
-                            <TableCell align="center">Name</TableCell>
-                            <TableCell align="center">Address</TableCell>
-                            <TableCell align="center">&nbsp;</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {contactList.map((row, index) => (
-                            <TableRow key={row.name}>
-                                <TableCell align="center">{++index}</TableCell>
-                                <TableCell align="center">{row.name}</TableCell>
-                                <TableCell align="center">{row.address}</TableCell>
-                                <TableCell align="center"><IconButton onClick={() => this.onEdit(--index)}><Edit /> </IconButton> <IconButton onClick={this.onEdit(index)}><Delete /> </IconButton></TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </Paper>
-
+            <MaterialTable
+                className={classes.root}
+                title="Editable Example"
+                columns={this.state.columns}
+                data={this.state.data}
+                editable={{
+                    onRowAdd: newData =>
+                        new Promise(resolve => {
+                            setTimeout(() => {
+                                resolve();
+                                const data = [...this.state.data];
+                                data.push(newData);
+                                this.setState({
+                                    data: data,
+                                });
+                            }, 600);
+                        }),
+                    onRowUpdate: (newData, oldData) =>
+                        new Promise(resolve => {
+                            setTimeout(() => {
+                                resolve();
+                                const data = [...this.state.data];
+                                data[data.indexOf(oldData)] = newData;
+                                this.setState({
+                                    data: data,
+                                });
+                            }, 600);
+                        }),
+                    onRowDelete: oldData =>
+                        new Promise(resolve => {
+                            setTimeout(() => {
+                                resolve();
+                                const data = [...this.state.data];
+                                data.splice(data.indexOf(oldData), 1);
+                                this.setState({
+                                    data: data,
+                                });
+                            }, 600);
+                        }),
+                }}
+            />
         );
     }
 }
@@ -116,20 +162,5 @@ import Tr from './Tr';
 
 /*
 
-            <MaterialTable
-                columns={[
-                    {title: "Adı", field: "name"},
-                    {title: "Soyadı", field: "surname"},
-                    {title: "Doğum Yılı", field: "birthYear", type: "numeric"},
-                    {
-                        title: "Doğum Yeri",
-                        field: "birthCity",
-                        lookup: {34: "İstanbul", 63: "Şanlıurfa"}
-                    }
-                ]}
-                data={[
-                    {name: "Mehmet", surname: "Baran", birthYear: 1987, birthCity: 63}
-                ]}
-                title="Demo Title"
-            />
+
  */
