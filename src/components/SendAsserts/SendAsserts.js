@@ -11,11 +11,15 @@ import {withStyles} from '@material-ui/styles';
 
 
 const styles = {
+    container: {
+        width: '100%',
+    },
+
     form: {
-        padding: 20,
-        margin: 100,
-        width: 500,
-        //height: 350,
+        padding: 25,
+        margin: '50px 100px',
+        width: 'auto',
+        height: 'auto,'
     },
     titleRow: {
         padding: '0 0 10px 0',
@@ -24,7 +28,7 @@ const styles = {
         padding: '7px 0 0 0',
     },
     inputDiv: {
-        padding: '0 0 8px 0',
+        padding: '0 0 12px 0',
     },
     input: {
         width: '100%',
@@ -50,30 +54,50 @@ class SendAsserts extends Component {
         };
     }
 
-
-
     async handleSubmit(event) {
         event.preventDefault();
         //0x2dDd58766120254a9Ebc4E7E2Cf4594a350abDeb
+        if (this.state.to === '' || this.state.amount === ''){
+            this.props.enqueueSnackbar(`All fields required`, {
+                variant: 'error',
+            });
+            return;
+        }
         const amount = this.state.amount.replace(',', '.');
-        const res = await send.sendAsserts(this.props.address, this.props.privateKey, this.state.to, amount);
+        let res;
+        try {
+            res = await send.sendAsserts(this.props.address, this.props.privateKey, this.state.to, amount);
+        }catch(e)
+        {
+            this.props.enqueueSnackbar(`Error: ${e}`, {
+                variant: 'error',
+            });
+            return;
+        }
         console.log(res);
-        if(res !== undefined){
-
+        if (res !== undefined && res !== null) {
             const action = (key) => (
                 <div>
-                    <Button onClick={() => { alert(`I belong to snackbar with key ${key}`); }}>
+                    <Button onClick={() => {
+                        alert(`I belong to snackbar with key ${key}`);
+                    }}>
                         {'Alert'}
                     </Button>
-                    <Button onClick={() => { props.closeSnackbar(key) }}>
+                    <Button onClick={() => {
+                        props.closeSnackbar(key)
+                    }}>
                         {'Dismiss'}
                     </Button>
                 </div>
             );
-
             this.props.enqueueSnackbar(`Transaction sent, id: ${res}`, {
                 variant: 'success',
                 action,
+            });
+        }
+        else{
+            this.props.enqueueSnackbar(`Transaction error`, {
+                variant: 'error',
             });
         }
     }
@@ -81,16 +105,18 @@ class SendAsserts extends Component {
     render() {
         const {classes} = this.props;
         return (
+            <Paper className={classes.form} elevation={5}>
 
-            <Grid
-                container
-                spacing={24}
-                justify="center"
-                alignItems="center"
-            >
-                <Paper className={classes.form} elevation={5}>
-                    <Grid container className={classes.titleRow}>
-                        <Grid item xs>
+                <Grid
+                    container
+                    spacing={24}
+                    justify="center"
+                    alignItems="center"
+                    className={classes.container}
+                >
+
+                    <Grid item xs className={classes.titleRow}>
+                        <Grid item xs={12}>
                             <Typography
                                 className={classes.title}
                                 variant="h6"
@@ -101,7 +127,7 @@ class SendAsserts extends Component {
                         </Grid>
                     </Grid>
 
-                    <Grid item xs className={classes.inputDiv}>
+                    <Grid item xs={12} className={classes.inputDiv}>
                         <TextField
                             className={classes.input}
                             label="To"
@@ -112,7 +138,7 @@ class SendAsserts extends Component {
                         />
                     </Grid>
 
-                    <Grid item xs className={classes.inputDiv}>
+                    <Grid item xs={12} className={classes.inputDiv}>
                         <TextField
                             className={classes.input}
                             label="Value"
@@ -122,7 +148,7 @@ class SendAsserts extends Component {
                         />
                     </Grid>
 
-                    <Grid item xs className={classes.inputDiv}>
+                    <Grid item xs={6} className={classes.inputDiv}>
                         <TextField
                             className={classes.input}
                             label="Gas price"
@@ -131,7 +157,7 @@ class SendAsserts extends Component {
                         />
                     </Grid>
 
-                    <Grid item xs className={classes.inputDiv}>
+                    <Grid item xs={6} className={classes.inputDiv}>
                         <TextField
                             className={classes.input}
                             label="Gas limit"
@@ -140,7 +166,7 @@ class SendAsserts extends Component {
                         />
                     </Grid>
 
-                    <Grid item xs >
+                    <Grid item xs={12}>
                         <Button
                             className={classes.button}
                             variant="outlined"
@@ -150,10 +176,8 @@ class SendAsserts extends Component {
                             Send
                         </Button>
                     </Grid>
-                </Paper>
-            </Grid>
 
-
+                </Grid></Paper>
         )
     }
 }

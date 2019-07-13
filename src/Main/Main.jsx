@@ -43,6 +43,12 @@ const styles = {
     tabList: {
         height: '100%',
     },
+    logo: {
+        margin: '30px auto',
+    },
+    logout: {
+        margin: 'auto 0px 0px 0px',
+    },
     tab: {
         flexContainer: {
             flexDirection: 'column'
@@ -76,29 +82,25 @@ class Main extends Component {
         };
     }
 
-    handleChange(_, activeIndex) {
-        this.setState({activeIndex});
-    }
-
     render() {
         const account = this.props.account;
-        const {activeIndex} = this.state;
         const {classes} = this.props;
         console.log(this.props.account);
         return (
             <Grid>
                 <Grid container className={classes.container}>
 
-                    <Tabs defaultTab="vertical-tab-one" vertical>
+                    <Tabs defaultTab="vertical-tab-two" vertical>
 
                         <TabList className={classes.tabList}>
-                            <Tab tabFor="vertical-tab-one"><WalletIcon/></Tab>
+                            <Grid className={classes.logo} ><WalletIcon/></Grid>
+                            <Tab tabFor="vertical-tab-one"><WalletIcon/> </Tab>
                             <Tab tabFor="vertical-tab-two"><SendIcon/></Tab>
                             <Tab tabFor="vertical-tab-three"><ReceiveIcon/></Tab>
                             <Tab tabFor="vertical-tab-four"><ContactsIcon/></Tab>
                             <Tab tabFor="vertical-tab-five"><TransactionsIcon/></Tab>
                             <Tab tabFor="vertical-tab-six"><SettingsIcon/></Tab>
-                            <Tab tabFor="vertical-tab-seven"><LogoutIcon/></Tab>
+                            <Tab className={classes.logout} tabFor="vertical-tab-seven"><LogoutIcon/></Tab>
                         </TabList>
 
                         <TabPanel tabId="vertical-tab-one">
@@ -155,15 +157,6 @@ class Main extends Component {
         );
     }
 }
-
-const VerticalTabs = withStyles({
-    flexContainer: {
-        flexDirection: 'column'
-    },
-    indicator: {
-        display: 'none',
-    },
-})(Tabs);
 
 
 export default withStyles(styles)(Main);
