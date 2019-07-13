@@ -90,7 +90,7 @@ class Main extends Component {
             <Grid>
                 <Grid container className={classes.container}>
 
-                    <Tabs defaultTab="vertical-tab-two" vertical>
+                    <Tabs defaultTab="vertical-tab-four" vertical>
 
                         <TabList className={classes.tabList}>
                             <Grid className={classes.logo} ><WalletIcon/></Grid>
@@ -135,7 +135,7 @@ class Main extends Component {
                         </TabPanel>
 
                         <TabPanel tabId="vertical-tab-four">
-                            <Contacts/>
+                            <Contacts contactList={this.props.contactList}/>
                         </TabPanel>
 
                         <TabPanel tabId="vertical-tab-five">

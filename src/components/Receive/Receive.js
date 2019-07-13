@@ -8,7 +8,7 @@ import QRCode from 'qrcode-react';
 
 const styles = {
     root: {
-        height: '80vh',
+        height: 'auto',
         margin: 20,
     },
     header: {
@@ -34,14 +34,14 @@ class Receive extends Component {
                     </Grid>
                     <Grid container>
                         <Grid className={classes.items} item xs={6}>
-                            <Typography color={'secondary'} variant={'h6'}>Why use a QR code?</Typography>
+                            <Typography color={'primary'} variant={'h6'}>Why use a QR code?</Typography>
                             <Typography align={'justify'}>
                                 Ever sent assets to the wrong address because of an errant character in the
                                 wallet address?
 
                                 If not, lucky you - but it happens with frightening regularity.
 
-                                Here at CoZ, we want to ensure people that pay you get your details right. You can
+                                We want to ensure people that pay you get your details right. You can
                                 generate a QR code for requesting assets to help them help you.
 
                                 Every code you generate will include your public wallet address, an asset amount and a

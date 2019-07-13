@@ -167,6 +167,7 @@ class App extends Component {
             return (
                 <Main
                     account={this.state.accountObj}
+                    contactList={this.state.contactList}
                     onLogoutClick={this.handleOnLogoutClick.bind(this)}
                     enqueueSnackbar={this.props.enqueueSnackbar}
                 />
