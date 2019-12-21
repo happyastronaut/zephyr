@@ -14,14 +14,14 @@ import {withStyles} from '@material-ui/styles';
 const web3 = new Web3(ropstenRpcURL);
 const styles = {
     container: {
-        padding: '15px',
+        padding: '0px',
     },
     header: {
-        padding: '15px',
-        margin: '15px',
+        padding: '5px',
+        margin: '5px',
     },
     text: {
-        padding: '0 25px',
+        padding: '0 0px',
     },
 };
 
@@ -49,21 +49,17 @@ class Balance extends Component {
             balance = web3.utils.fromWei(balance);
         }
         return (
-            <Paper elevation={5}>
-                <Grid container className={classes.container}>
-                    <Grid item xs={12} className={classes.header}>
-                        <Grid container >
-                            <Grid item xs={3}>
-                                <BalanceIcon color={'primary'} style={{fontSize: 60}}/>
-                            </Grid>
-                            <Grid item xs={9} className={classes.text}>
-                                <Typography variant={'h6'}> Balance: </Typography>
-                                <Typography>{balance} ETH</Typography>
-                            </Grid>
+
+            <Grid container className={classes.container}>
+                <Grid item xs={12} className={classes.header}>
+                    <Grid container>
+                        <Grid item xs={9} className={classes.text}>
+                            <Typography><b>Balance:</b> {balance} ETH </Typography>
                         </Grid>
                     </Grid>
                 </Grid>
-            </Paper>
+            </Grid>
+
         );
     }
 

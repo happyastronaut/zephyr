@@ -101,7 +101,7 @@ class Login extends Component {
                             <WithPrivateKey onLoginClickPrivateKey={this.props.onLoginClickPrivateKey}/>
                             }
 
-                            <Grid container spacing={24}>
+                            <Grid container spacing={6}>
                                 <Grid item xs>
                                     <div className={classes.createButtonDiv}>
                                         <Button

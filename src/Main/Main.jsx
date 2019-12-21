@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+import AutoSizer from 'react-virtualized-auto-sizer';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
@@ -32,10 +33,8 @@ import {withStyles} from '@material-ui/styles';
 const styles = {
     wrapperDiv: {
         display: 'flex',
-
     },
     header: {
-        // height: '10px',
     },
     container: {
         height: '100vh',
@@ -68,8 +67,11 @@ const styles = {
             display: 'none',
         },
     },
+    address: {
+        'padding-top': '10px',
+    },
     chart: {
-        padding: '5px 0 50px 0',
+        padding: '5px 0px 50px 0',
 
     },
 };
@@ -90,10 +92,10 @@ class Main extends Component {
             <Grid>
                 <Grid container className={classes.container}>
 
-                    <Tabs defaultTab="vertical-tab-four" vertical>
+                    <Tabs defaultTab="vertical-tab-five" vertical>
 
                         <TabList className={classes.tabList}>
-                            <Grid className={classes.logo} ><WalletIcon/></Grid>
+                            <Grid className={classes.logo}><WalletIcon/></Grid>
                             <Tab tabFor="vertical-tab-one"><WalletIcon/> </Tab>
                             <Tab tabFor="vertical-tab-two"><SendIcon/></Tab>
                             <Tab tabFor="vertical-tab-three"><ReceiveIcon/></Tab>
@@ -104,21 +106,18 @@ class Main extends Component {
                         </TabList>
 
                         <TabPanel tabId="vertical-tab-one">
-                            <Grid container spacing={24}>
-                                <Grid item xs={8}>
-                                    <Address
-                                        enqueueSnackbar={this.props.enqueueSnackbar}
-                                        address={account.address}
-                                    />
+                            <Grid container spacing={0} className={classes.address}>
+                                <Grid container>
+                                    <Grid item xs={12}>
+                                        <Address
+                                            enqueueSnackbar={this.props.enqueueSnackbar}
+                                            address={account.address}
+                                        />
+                                    </Grid>
                                 </Grid>
-
-                                <Grid item xs={4}>
-                                    <Balance address={account.address}/>
+                                <Grid item xs={12}>
+                                    <Chart/>
                                 </Grid>
-
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Chart/>
                             </Grid>
                         </TabPanel>
 

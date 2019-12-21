@@ -7,6 +7,7 @@ import {enableLiveReload} from 'electron-compile';
 let mainWindow;
 
 const isDevMode = process.execPath.match(/[\\/]electron/);
+// const isDevMode = false;
 
 if (isDevMode) enableLiveReload({strategy: 'react-hmr'});
 

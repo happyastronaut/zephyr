@@ -17,7 +17,7 @@ class App extends Component {
 
     constructor(props) {
         super(props);
-        //store.openInEditor();
+        // store.openInEditor();
         this.state = {
             route: 'login',
             isLogged: false,

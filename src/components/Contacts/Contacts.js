@@ -12,20 +12,22 @@ import Delete from '@material-ui/icons/Delete';
 
 import IconButton from '@material-ui/core/IconButton';
 
+import Grid from '@material-ui/core/Grid';
+
 import MaterialTable from "material-table";
 
 import {withStyles} from '@material-ui/styles';
 
 const useStyles = {
-    root: {
-        width: '100%',
-        overflowX: 'auto',
+    container: {
+        width: '87vw',
+        // height: '80vh',
+        padding: 5,
+        margin: '15px',
     },
     table: {
-        height: 100,
-        display: 'flex',
-        'overflow-y': 'auto',
-        'overflow-x': 'hidden',
+        // width: '100vw',
+        // height: '100%',
     },
 };
 
@@ -36,24 +38,20 @@ class Contacts extends Component {
         this.state = {
 
             columns: [
-                {title: 'Name', field: 'name'},
-                {title: 'Surname', field: 'surname'},
-                {title: 'Birth Year', field: 'birthYear', type: 'numeric'},
-                {
-                    title: 'Birth Place',
-                    field: 'birthCity',
-                    lookup: {34: 'İstanbul', 63: 'Şanlıurfa'},
-                },
+                {title: 'Name', field: 'name',},
+                {title: 'Address', field: 'address', /*cellStyle: {width: '70%',}*/},
             ],
 
             data: [
-                {name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63},
-                {
-                    name: 'Zerya Betül',
-                    surname: 'Baran',
-                    birthYear: 2017,
-                    birthCity: 34,
-                },
+                {name: 'Zerdsfgdsgsdfya Betül', address: '0x9Ce164439b504af1E0DcB092E1664c9136d7ed7e'},
+                {name: 'Zerdsfgdsgsdfya Betül', address: '0x9Ce164439b504af1E0DcB092E1664c9136d7ed7e'},
+                {name: 'Zerdsfgdsgsdfya Betül', address: '0x9Ce164439b504af1E0DcB092E1664c9136d7ed7e'},
+                {name: 'Zerdsfgdsgsdfya Betül', address: '0x9Ce164439b504af1E0DcB092E1664c9136d7ed7e'},
+                {name: 'Zerdsfgdsgsdfya Betül', address: '0x9Ce164439b504af1E0DcB092E1664c9136d7ed7e'},
+                {name: 'Zerdsfgdsgsdfya Betül', address: '0x9Ce164439b504af1E0DcB092E1664c9136d7ed7e'},
+                {name: 'Zerdsfgdsgsdfya Betül', address: '0x9Ce164439b504af1E0DcB092E1664c9136d7ed7e'},
+                {name: 'Zerdsfgdsgsdfya Betül', address: '0x9Ce164439b504af1E0DcB092E1664c9136d7ed7e'},
+                {name: 'Zerdsfgdsgsdfya Betül', address: '0x9Ce164439b504af1E0DcB092E1664c9136d7ed7e'},
             ],
         };
     }
@@ -69,47 +67,60 @@ class Contacts extends Component {
 
         return (
 
-            <MaterialTable
-                className={classes.root}
-                title="Editable Example"
-                columns={this.state.columns}
-                data={this.state.data}
-                editable={{
-                    onRowAdd: newData =>
-                        new Promise(resolve => {
-                            setTimeout(() => {
-                                resolve();
-                                const data = [...this.state.data];
-                                data.push(newData);
-                                this.setState({
-                                    data: data,
-                                });
-                            }, 600);
-                        }),
-                    onRowUpdate: (newData, oldData) =>
-                        new Promise(resolve => {
-                            setTimeout(() => {
-                                resolve();
-                                const data = [...this.state.data];
-                                data[data.indexOf(oldData)] = newData;
-                                this.setState({
-                                    data: data,
-                                });
-                            }, 600);
-                        }),
-                    onRowDelete: oldData =>
-                        new Promise(resolve => {
-                            setTimeout(() => {
-                                resolve();
-                                const data = [...this.state.data];
-                                data.splice(data.indexOf(oldData), 1);
-                                this.setState({
-                                    data: data,
-                                });
-                            }, 600);
-                        }),
-                }}
-            />
+            <div className={classes.container}>
+                <MaterialTable
+                    title="Contacts"
+                    columns={this.state.columns}
+                    data={this.state.data}
+                    // data={contactList}
+                    options={{
+                        pageSize: 7,
+                        pageSizeOptions: [7],
+                        // minBodyHeight: '1000px',
+                        // maxBodyHeight: '1000px'
+                    }}
+                    // style={{width: '100%', height: '500px',}}
+                    editable={{
+                        onRowAdd: newData =>
+                            new Promise((resolve, reject) => {
+                                setTimeout(() => {
+                                    {
+                                        const data = this.state.data;
+                                        data.push(newData);
+                                        this.setState({data}, () => resolve());
+                                    }
+                                    resolve()
+                                }, 100)
+                            }),
+                        onRowUpdate: (newData, oldData) =>
+                            new Promise((resolve, reject) => {
+                                setTimeout(() => {
+                                    {
+                                        const data = this.state.data;
+                                        const index = data.indexOf(oldData);
+                                        data[index] = newData;
+                                        this.setState({data}, () => resolve());
+                                    }
+                                    resolve()
+                                }, 100)
+                            }),
+                        onRowDelete: oldData =>
+                            new Promise((resolve, reject) => {
+                                setTimeout(() => {
+                                    {
+                                        let data = this.state.data;
+                                        const index = data.indexOf(oldData);
+                                        data.splice(index, 1);
+                                        this.setState({data}, () => resolve());
+                                    }
+                                    resolve()
+                                }, 100)
+                            }),
+                    }}
+                />
+
+            </div>
+
         );
     }
 }

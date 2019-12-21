@@ -14,12 +14,11 @@ const styles = {
     container: {
         width: '100%',
     },
-
     form: {
-        padding: 25,
+        padding: '25px 10px',
         margin: '50px 100px',
         width: 'auto',
-        height: 'auto,'
+        height: 'auto'
     },
     titleRow: {
         padding: '0 0 10px 0',
@@ -28,18 +27,15 @@ const styles = {
         padding: '7px 0 0 0',
     },
     inputDiv: {
-        padding: '0 0 12px 0',
+        padding: '0 0 15px 0',
     },
     input: {
         width: '100%',
-        margin: '0 0 8px 0',
     },
     button: {
         width: '100%',
     },
-    backButton: {
-        margin: '0 0 0 175px',
-    },
+
 };
 
 class SendAsserts extends Component {
@@ -57,7 +53,7 @@ class SendAsserts extends Component {
     async handleSubmit(event) {
         event.preventDefault();
         //0x2dDd58766120254a9Ebc4E7E2Cf4594a350abDeb
-        if (this.state.to === '' || this.state.amount === ''){
+        if (this.state.to === '' || this.state.amount === '') {
             this.props.enqueueSnackbar(`All fields required`, {
                 variant: 'error',
             });
@@ -67,8 +63,7 @@ class SendAsserts extends Component {
         let res;
         try {
             res = await send.sendAsserts(this.props.address, this.props.privateKey, this.state.to, amount);
-        }catch(e)
-        {
+        } catch (e) {
             this.props.enqueueSnackbar(`Error: ${e}`, {
                 variant: 'error',
             });
@@ -95,7 +90,7 @@ class SendAsserts extends Component {
                 action,
             });
         }
-        else{
+        else {
             this.props.enqueueSnackbar(`Transaction error`, {
                 variant: 'error',
             });
@@ -109,12 +104,11 @@ class SendAsserts extends Component {
 
                 <Grid
                     container
-                    spacing={24}
+                    spacing={3}
                     justify="center"
                     alignItems="center"
                     className={classes.container}
                 >
-
                     <Grid item xs className={classes.titleRow}>
                         <Grid item xs={12}>
                             <Typography
@@ -131,7 +125,6 @@ class SendAsserts extends Component {
                         <TextField
                             className={classes.input}
                             label="To"
-                            variant="outlined"
                             type={'text'}
                             autoComplete={'true'}
                             onChange={e => this.setState({to: e.target.value})}
@@ -142,7 +135,6 @@ class SendAsserts extends Component {
                         <TextField
                             className={classes.input}
                             label="Value"
-                            variant="outlined"
                             type={'number'}
                             onChange={e => this.setState({amount: e.target.value})}
                         />
@@ -152,7 +144,6 @@ class SendAsserts extends Component {
                         <TextField
                             className={classes.input}
                             label="Gas price"
-                            variant="outlined"
                             onChange={e => this.setState({gasPrice: e.target.value})}
                         />
                     </Grid>
@@ -161,7 +152,6 @@ class SendAsserts extends Component {
                         <TextField
                             className={classes.input}
                             label="Gas limit"
-                            variant="outlined"
                             onChange={e => this.setState({gasLimit: e.target.value})}
                         />
                     </Grid>
@@ -169,15 +159,16 @@ class SendAsserts extends Component {
                     <Grid item xs={12}>
                         <Button
                             className={classes.button}
-                            variant="outlined"
                             color="primary"
+                            variant="outlined"
                             onClick={this.handleSubmit}
                         >
                             Send
                         </Button>
                     </Grid>
 
-                </Grid></Paper>
+                </Grid>
+            </Paper>
         )
     }
 }
@@ -193,5 +184,11 @@ export default withStyles(styles)(SendAsserts);
                             <input id={'amount'}/>
                             <Button>Send</Button>
                         </form>
+
+ */
+
+
+/*
+
 
  */

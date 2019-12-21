@@ -9,14 +9,14 @@ import {withStyles} from '@material-ui/styles';
 const styles = {
     container: {
         marginTop: '24px',
-        height: '40vh',
+        height: '70vh',
     },
     header: {
         padding: '15px 0 0 25px',
         margin: '15px',
     },
     chartContainer: {
-        height: '100%',
+        height: '90%',
         padding: 15,
     },
 };

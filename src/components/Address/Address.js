@@ -9,6 +9,8 @@ import Icon from '@material-ui/icons/MarkunreadMailbox';
 import CopyIcon from '@material-ui/icons/FileCopy';
 import IconButton from '@material-ui/core/IconButton';
 
+import Balance from "../Balance/Balance";
+
 import {withStyles} from '@material-ui/styles';
 
 const styles = {
@@ -16,14 +18,11 @@ const styles = {
         padding: '15px',
     },
     header: {
-        padding: '15px',
-        margin: '15px',
-    },
-    text: {
-        padding: '0 25px',
+        padding: '5px',
+        margin: '5px',
     },
     iconDiv: {
-        padding: 10,
+        padding: '0px',
     },
     icon: {},
 };
@@ -44,22 +43,19 @@ class Address extends Component {
             <Paper elevation={5}>
                 <Grid item xs={12} className={classes.header}>
                     <Grid container className={classes.container}>
-                        <Grid item xs={2}>
-                            <Icon style={{color: 'black', fontSize: 60}}/>
-                        </Grid>
-                        <Grid item xs={10} className={classes.text}>
-                            <Grid container>
-                                <Grid item xs={11}>
-                                    <Typography variant={'h6'}> My public address:</Typography>
-                                    <Typography>{this.props.address}</Typography>
-                                </Grid>
-                                <Grid item xs={1}>
-                                    <IconButton  onClick={() => this.copy(address)} aria-label={'copy'}>
-                                        <CopyIcon/>
-                                    </IconButton>
-                                </Grid>
+
+                        <Grid container>
+                            <Grid item xs={9}>
+                                <Typography><b>My public address:</b> {this.props.address} <IconButton
+                                    onClick={() => this.copy(address)} aria-label={'copy'}>
+                                    <CopyIcon fontSize={'small'} className={classes.icon}/>
+                                </IconButton></Typography>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Balance address={address}/>
                             </Grid>
                         </Grid>
+
                     </Grid>
                 </Grid>
             </Paper>
