@@ -8,34 +8,29 @@ import {withStyles} from '@material-ui/styles';
 
 const styles = {
     container: {
-        marginTop: '24px',
-        height: '70vh',
+        height: '85vh',
     },
     header: {
         padding: '15px 0 0 25px',
-        margin: '15px',
+        margin: 15,
     },
     chartContainer: {
-        height: '90%',
+        height: '95%',
         padding: 15,
     },
 };
 
 class Chart extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             data: [],
             lastPrice: 0,
         };
     }
 
-    componentDidMount() {
-        this.getData();
-    }
-
-    async getData() {
+    async componentDidMount() {
         const data = await fetch('https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=12&aggregate=1&e=Kraken&extraParams=your_app_name');
         //https://min-api.cryptocompare.com/documentation?key=Historical&cat=dataHistohour
         const jsonData = await data.json();
@@ -86,7 +81,6 @@ class Chart extends Component {
             </Paper>
         )
     }
-
 }
 
 export default withStyles(styles)(Chart);

@@ -16,13 +16,13 @@ import TransactionsIcon from '@material-ui/icons/ChangeHistory';
 import SettingsIcon from '@material-ui/icons/Settings';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
 
-import Address from "../components/Address/Address";
+import Wallet from "../components/Wallet/Wallet";
 import SendAsserts from "../components/SendAsserts/SendAsserts";
 import TransactionsHistory from "../components/TransactionsHistory/TransactionsHistory";
 import Settings from "../components/Settings/Settings";
 import Receive from "../components/Receive/Receive";
 import Contacts from "../components/Contacts/Contacts";
-import Chart from "../components/Chart/Chart";
+
 
 function TabPanel(props) {
     const {children, value, index} = props;
@@ -65,12 +65,14 @@ const useStyles = makeStyles(theme => ({
     logout: {
         width: '100%',
         position: 'absolute',
-        bottom: 0,
+        bottom: 20,
     },
     content:{
-        'background-color': '#acacac',
+        'background-color': '#fff',
         width: '100%',
         height: '100%',
+        display: 'flex',
+        'align-items': 'center',
     }
 }));
 
@@ -87,7 +89,7 @@ export default function VerticalTabs(props) {
         <Grid container className={classes.root}>
             <Grid item xs={2}>
                 <Tabs
-                    TabIndicatorProps={{style: {background: '#4e00ff'}}}
+                    TabIndicatorProps={{style: {background: '#0600ff'}}}
                     orientation="vertical"
                     value={value}
                     onChange={handleChange}
@@ -103,9 +105,12 @@ export default function VerticalTabs(props) {
                     <Tab icon={<LogoutIcon/>} label={'Logout'} className={classes.logout}  disableRipple {...a11yProps(6)} />
                 </Tabs>
             </Grid>
-            <Grid className={classes.content} item xs>
+            <Grid className={classes.content} item xs={10}>
                 <TabPanel value={value} index={0}>
-                    <div >123</div>
+                    <Wallet
+                        address={account.address}
+                        enqueueSnackbar={props.enqueueSnackbar}
+                    />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <SendAsserts
