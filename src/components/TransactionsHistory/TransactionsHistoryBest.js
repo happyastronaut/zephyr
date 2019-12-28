@@ -8,7 +8,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-
 import {ropstenRpcURL} from "../../ethereum/constants/nets";
 
 
@@ -35,25 +34,24 @@ let rows = [
 const useStyles = makeStyles({
     root: {
         width: '100%',
-        margin: 15,
     },
     container: {
-        width: '88vw',
-        height: '95vh',
+        width: '90vw',
+        height: '90vh',
     },
 });
 
-export default function TransactionsHistory(props) {
+export default function TransactionsHistory() {
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
     const [data, setData] = useState({data: []});
     rows = Array.from(data);
     rows = rows.reverse();
     useEffect(() => {
             const fetchData = async () => {
-
-                const result = await fetch(`http://api-ropsten.etherscan.io/api?module=account&action=txlist&address=${props.address}`).then((res) => {
+                const result = await fetch(`http://api-ropsten.etherscan.io/api?module=account&action=txlist&address=0x9Ce164439b504af1E0DcB092E1664c9136d7ed7e`).then((res) => {
                         return res.json();
                     }
                 );
@@ -101,9 +99,9 @@ export default function TransactionsHistory(props) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row, index) => {
+                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                             return (
-                                <TableRow key={row.hash + index}>
+                                <TableRow key={row.hash}>
                                     <TableCell component="th" scope="row">
                                         {row.blockNumber}
                                     </TableCell>
@@ -117,6 +115,15 @@ export default function TransactionsHistory(props) {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[10, 25, 100]}
+                component="div"
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+            />
         </Paper>
     );
 }

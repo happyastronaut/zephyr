@@ -5,7 +5,6 @@ const {clipboard} = require('electron');
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Icon from '@material-ui/icons/MarkunreadMailbox';
 import CopyIcon from '@material-ui/icons/FileCopy';
 import IconButton from '@material-ui/core/IconButton';
 
@@ -47,7 +46,7 @@ class Address extends Component {
                         <Grid container>
                             <Grid item xs={9}>
                                 <Typography><b>My public address:</b> {this.props.address} <IconButton
-                                    onClick={() => this.copy(address)} aria-label={'copy'}>
+                                    onClick={() => {this.copy(address)}} aria-label={'copy'}>
                                     <CopyIcon fontSize={'small'} className={classes.icon}/>
                                 </IconButton></Typography>
                             </Grid>
@@ -59,8 +58,10 @@ class Address extends Component {
                     </Grid>
                 </Grid>
             </Paper>
+
         );
     }
 }
 
 export default withStyles(styles)(Address);
+

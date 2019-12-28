@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import * as send from '../../ethereum/actions/sendTransaction'
 
 import Grid from '@material-ui/core/Grid';
@@ -6,189 +6,162 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import {Autocomplete} from '@material-ui/lab';
 
-import {withStyles} from '@material-ui/styles';
+import {makeStyles} from '@material-ui/core/styles';
+import {ropstenRpcURL} from "../../ethereum/constants/nets";
 
+const Web3 = require('web3');
+const web3 = new Web3(ropstenRpcURL);
 
-const styles = {
+const useStyles = makeStyles(theme => ({
     container: {
-        width: '100%',
+        width: '50vw',
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
     },
-    form: {
-        padding: '25px 10px',
-        margin: '50px 100px',
-        width: 'auto',
-        height: 'auto'
-    },
-    titleRow: {
-        padding: '0 0 10px 0',
+    paper: {
+        margin: '50px 20px',
+        width: '100%'
     },
     title: {
-        padding: '7px 0 0 0',
+        padding: '20px 40px 0 40px',
     },
-    inputDiv: {
-        padding: '0 0 15px 0',
-    },
-    input: {
-        width: '100%',
+    field: {
+        padding: '0px 40px 10px 40px',
+        'vertical-align': 'middle',
     },
     button: {
+        margin: '40px 0 0 80px',
         width: '100%',
+        height: 80,
     },
 
-};
+}));
 
-class SendAsserts extends Component {
-    constructor() {
-        super();
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.state = {
-            to: '',
-            amount: '',
-            gasPrice: undefined,
-            gasLimit: undefined,
-        };
-    }
+export default function SendAsserts(props) {
+    const classes = useStyles();
+    const contactList = props.contactList;
+    const [address, setAddress] = useState(0);
+    const [amount, setAmount] = useState(0);
+    const [gasPrice, setGasPrice] = useState(10);
+    const [gasLimit, setGasLimit] = useState(21000);
+    return (
+        <Grid container
+              className={classes.container}
+              direction="row"
+              justify="center"
+              alignItems="center"
+        >
+            <Paper
+                elevation={5}
+                className={classes.paper}
+            >
+                <Typography
+                    variant="h6"
+                    color={"primary"}
+                    className={classes.title}
+                >
+                    Send asserts
+                </Typography>
+                <Autocomplete
+                    id="to-address"
+                    className={classes.field}
+                    freeSolo
+                    options={contactList.map(option => option.name)}
+                    disableClearable
+                    renderInput={params => (
+                        <TextField {...params} label="To:" margin="normal" onChange={e => {setAddress(e.target.value)}} fullWidth/>
+                    )}
+                    onChange={handleChange}
+                />
+                <div className={classes.field}>
+                    <TextField
+                        id="amount"
+                        label="Amount"
+                        type={'number'}
+                        fullWidth
+                        onChange={e => setAmount(e.target.value)}
+                    />
+                </div>
+                <Grid container className={classes.field} spacing={5}>
+                    <Grid item xs={6}>
+                        <TextField
+                            id="gasprice"
+                            label="Gas price"
+                            type={'number'}
+                            defaultValue={'10'}
+                            fullWidth
+                            onChange={e => setGasPrice(e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            id="gaslimit"
+                            label="Gas limit"
+                            type={'number'}
+                            defaultValue={'21000'}
+                            fullWidth
+                            onChange={e => setGasLimit(e.target.value)}
+                        />
+                    </Grid>
+                </Grid>
+                <Button
+                    className={classes.button}
+                    variant="outlined"
+                    onClick={(e) => {
+                        handleSubmit(e)
+                    }}>
+                    Send
+                </Button>
+            </Paper>
 
-    async handleSubmit(event) {
-        event.preventDefault();
+        </Grid>
+    );
+
+    async function handleSubmit(event) {
+         event.preventDefault();
+         console.log(address, amount, gasPrice, gasLimit);
         //0x2dDd58766120254a9Ebc4E7E2Cf4594a350abDeb
-        if (this.state.to === '' || this.state.amount === '') {
-            this.props.enqueueSnackbar(`All fields required`, {
+        if (address === '' || amount === '') {
+            props.enqueueSnackbar(`All fields required`, {
                 variant: 'error',
             });
             return;
         }
-        const amount = this.state.amount.replace(',', '.');
+        if (!web3.utils.isAddress(address)){
+            props.enqueueSnackbar(`Invalid address`, {
+                variant: 'error',
+            });
+            return;
+        }
+        setAmount(amount.replace(',', '.'));
         let res;
         try {
-            res = await send.sendAsserts(this.props.address, this.props.privateKey, this.state.to, amount);
+            res = await send.sendAsserts(props.address, props.privateKey, address, amount.toString(), gasPrice.toString(), gasLimit.toString());
         } catch (e) {
-            this.props.enqueueSnackbar(`Error: ${e}`, {
+            props.enqueueSnackbar(`Error: ${e}`, {
                 variant: 'error',
             });
             return;
         }
         console.log(res);
         if (res !== undefined && res !== null) {
-            const action = (key) => (
-                <div>
-                    <Button onClick={() => {
-                        alert(`I belong to snackbar with key ${key}`);
-                    }}>
-                        {'Alert'}
-                    </Button>
-                    <Button onClick={() => {
-                        props.closeSnackbar(key)
-                    }}>
-                        {'Dismiss'}
-                    </Button>
-                </div>
-            );
-            this.props.enqueueSnackbar(`Transaction sent, id: ${res}`, {
+            props.enqueueSnackbar(`Transaction sent, id: ${res}`, {
                 variant: 'success',
-                action,
             });
         }
         else {
-            this.props.enqueueSnackbar(`Transaction error`, {
+            props.enqueueSnackbar(`Transaction error`, {
                 variant: 'error',
             });
         }
     }
 
-    render() {
-        const {classes} = this.props;
-        return (
-            <Paper className={classes.form} elevation={5}>
-
-                <Grid
-                    container
-                    spacing={3}
-                    justify="center"
-                    alignItems="center"
-                    className={classes.container}
-                >
-                    <Grid item xs className={classes.titleRow}>
-                        <Grid item xs={12}>
-                            <Typography
-                                className={classes.title}
-                                variant="h6"
-                                color={"primary"}
-                            >
-                                Send Asserts
-                            </Typography>
-                        </Grid>
-                    </Grid>
-
-                    <Grid item xs={12} className={classes.inputDiv}>
-                        <TextField
-                            className={classes.input}
-                            label="To"
-                            type={'text'}
-                            autoComplete={'true'}
-                            onChange={e => this.setState({to: e.target.value})}
-                        />
-                    </Grid>
-
-                    <Grid item xs={12} className={classes.inputDiv}>
-                        <TextField
-                            className={classes.input}
-                            label="Value"
-                            type={'number'}
-                            onChange={e => this.setState({amount: e.target.value})}
-                        />
-                    </Grid>
-
-                    <Grid item xs={6} className={classes.inputDiv}>
-                        <TextField
-                            className={classes.input}
-                            label="Gas price"
-                            onChange={e => this.setState({gasPrice: e.target.value})}
-                        />
-                    </Grid>
-
-                    <Grid item xs={6} className={classes.inputDiv}>
-                        <TextField
-                            className={classes.input}
-                            label="Gas limit"
-                            onChange={e => this.setState({gasLimit: e.target.value})}
-                        />
-                    </Grid>
-
-                    <Grid item xs={12}>
-                        <Button
-                            className={classes.button}
-                            color="primary"
-                            variant="outlined"
-                            onClick={this.handleSubmit}
-                        >
-                            Send
-                        </Button>
-                    </Grid>
-
-                </Grid>
-            </Paper>
-        )
+    function handleChange(event, newValue) {
+        setAddress(contactList.find(x => x.name === newValue).address);
     }
+
 }
-
-export default withStyles(styles)(SendAsserts);
-
-/*
-
-                        <form onSubmit={this.handleSubmit}>
-                            <label htmlFor={'receiver'}>To:</label>
-                            <input id={'receiver'}/>
-                            <label htmlFor={'amount'}>Amount:</label>
-                            <input id={'amount'}/>
-                            <Button>Send</Button>
-                        </form>
-
- */
-
-
-/*
-
-
- */

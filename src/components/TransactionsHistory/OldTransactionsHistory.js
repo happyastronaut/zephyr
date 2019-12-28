@@ -36,7 +36,7 @@ const styles = {
 const Web3 = require('web3');
 const web3 = new Web3(ropstenRpcURL);
 
-class TransactionsHistory extends Component {
+class OldTransactionsHistory extends Component {
     constructor() {
         super();
         this.state = {
@@ -124,4 +124,4 @@ class TransactionsHistory extends Component {
 }
 
 
-export default withStyles(styles)(TransactionsHistory);
+export default withStyles(styles)(OldTransactionsHistory);

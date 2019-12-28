@@ -18,12 +18,18 @@ import MaterialTable from "material-table";
 
 import {withStyles} from '@material-ui/styles';
 
+const Store = require('electron-store');
+const store = new Store();
+
 const useStyles = {
     container: {
-        width: '87vw',
+        width: '92vw',
         // height: '80vh',
         padding: 5,
-        margin: '15px',
+        position: 'relative',
+        display: 'inline-block',
+        top: '50%',
+        transform: 'translateY(-50%)',
     },
     table: {
         // width: '100vw',
@@ -33,37 +39,20 @@ const useStyles = {
 
 class Contacts extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-
             columns: [
                 {title: 'Name', field: 'name',},
                 {title: 'Address', field: 'address', /*cellStyle: {width: '70%',}*/},
             ],
-
-            data: [
-                {name: 'Zerdsfgdsgsdfya Betül', address: '0x9Ce164439b504af1E0DcB092E1664c9136d7ed7e'},
-                {name: 'Zerdsfgdsgsdfya Betül', address: '0x9Ce164439b504af1E0DcB092E1664c9136d7ed7e'},
-                {name: 'Zerdsfgdsgsdfya Betül', address: '0x9Ce164439b504af1E0DcB092E1664c9136d7ed7e'},
-                {name: 'Zerdsfgdsgsdfya Betül', address: '0x9Ce164439b504af1E0DcB092E1664c9136d7ed7e'},
-                {name: 'Zerdsfgdsgsdfya Betül', address: '0x9Ce164439b504af1E0DcB092E1664c9136d7ed7e'},
-                {name: 'Zerdsfgdsgsdfya Betül', address: '0x9Ce164439b504af1E0DcB092E1664c9136d7ed7e'},
-                {name: 'Zerdsfgdsgsdfya Betül', address: '0x9Ce164439b504af1E0DcB092E1664c9136d7ed7e'},
-                {name: 'Zerdsfgdsgsdfya Betül', address: '0x9Ce164439b504af1E0DcB092E1664c9136d7ed7e'},
-                {name: 'Zerdsfgdsgsdfya Betül', address: '0x9Ce164439b504af1E0DcB092E1664c9136d7ed7e'},
-            ],
+            data: props.contactList,
         };
     }
 
-    onEdit(index) {
-        console.log("edit" + index);
-    }
-
     render() {
-
         const {classes} = this.props;
-        let contactList = this.props.contactList;
+        const update = this.props.updateContacts;
 
         return (
 
@@ -74,8 +63,8 @@ class Contacts extends Component {
                     data={this.state.data}
                     // data={contactList}
                     options={{
-                        pageSize: 7,
-                        pageSizeOptions: [7],
+                        pageSize: 11,
+                        pageSizeOptions: [11],
                         // minBodyHeight: '1000px',
                         // maxBodyHeight: '1000px'
                     }}
@@ -89,6 +78,7 @@ class Contacts extends Component {
                                         data.push(newData);
                                         this.setState({data}, () => resolve());
                                     }
+                                    update(this.state.data);
                                     resolve()
                                 }, 100)
                             }),
@@ -101,6 +91,7 @@ class Contacts extends Component {
                                         data[index] = newData;
                                         this.setState({data}, () => resolve());
                                     }
+                                    update(this.state.data);
                                     resolve()
                                 }, 100)
                             }),
@@ -113,6 +104,7 @@ class Contacts extends Component {
                                         data.splice(index, 1);
                                         this.setState({data}, () => resolve());
                                     }
+                                    update(this.state.data);
                                     resolve()
                                 }, 100)
                             }),
@@ -127,51 +119,3 @@ class Contacts extends Component {
 
 
 export default withStyles(useStyles)(Contacts);
-//export default Contacts;
-
-/*
-import Table from 'react-bootstrap/Table';
-import Form from "react-bootstrap/Form";
-import Button from '@material-ui/core/Button';
-import {ropstenRpcURL} from "../../ethereum/constants/nets";
-import FullScreenDialog from './FullScreenDialog';
-import ContactDialog from "./ContactDialog";
-
-import Tr from './Tr';
-
-
-        const that = this;
-        return (
-            <div>
-                <Table striped bordered responsive="sm" hover size="sm">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Address</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {
-                        this.state.contactsList.map(function (item, index) {
-                            return (
-                                <Tr key={item.name.concat(item.pk)} onClick={(index) => that.deleteContact(index)}
-                                    item={item} index={index}/>
-                            )
-                        })
-                    }
-                    </tbody>
-                </Table>
-
-                <ContactDialog list={this.state.contactsList} onClick={this.addNewContact.bind(this)}/>
-
-            </div>
-            )
- */
-
-
-/*
-
-
- */

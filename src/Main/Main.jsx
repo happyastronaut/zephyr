@@ -1,23 +1,13 @@
-import React, {Component} from 'react';
+import React from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 
-import AutoSizer from 'react-virtualized-auto-sizer';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 
-//import Tabs from '@material-ui/core/Tabs'
-//import Tab from '@material-ui/core/Tab'
-import Typography from '@material-ui/core/Typography'
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
-import TabContainer from '../components/TabContainer/TabContainer';
-import Address from "../components/Address/Address";
-import Balance from "../components/Balance/Balance";
-import SendAsserts from "../components/SendAsserts/SendAsserts";
-import TransactionsHistory from "../components/TransactionsHistory/TransactionsHistory";
-import Receive from "../components/Receive/Receive";
-import Contacts from "../components/Contacts/Contacts";
-import Chart from "../components/Chart/Chart";
-
-import PersonPinIcon from '@material-ui/icons/PersonPin';
 import WalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import SendIcon from '@material-ui/icons/Send';
 import ReceiveIcon from '@material-ui/icons/CallReceived';
@@ -26,136 +16,124 @@ import TransactionsIcon from '@material-ui/icons/ChangeHistory';
 import SettingsIcon from '@material-ui/icons/Settings';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
 
-import {Tabs, Tab, TabPanel, TabList} from 'react-web-tabs';
+import Address from "../components/Address/Address";
+import SendAsserts from "../components/SendAsserts/SendAsserts";
+import TransactionsHistory from "../components/TransactionsHistory/TransactionsHistory";
+import Settings from "../components/Settings/Settings";
+import Receive from "../components/Receive/Receive";
+import Contacts from "../components/Contacts/Contacts";
+import Chart from "../components/Chart/Chart";
 
-import {withStyles} from '@material-ui/styles';
+function TabPanel(props) {
+    const {children, value, index} = props;
 
-const styles = {
-    wrapperDiv: {
-        display: 'flex',
-    },
-    header: {
-    },
-    container: {
-        height: '100vh',
-    },
-    tabList: {
-        height: '100%',
-    },
-    logo: {
-        margin: '30px auto',
-    },
-    logout: {
-        margin: 'auto 0px 0px 0px',
-    },
-    tab: {
-        flexContainer: {
-            flexDirection: 'column'
-        },
-        indicator: {
-            display: 'none',
-        },
-    },
-    tabs: {
-        height: '100vh',
-        width: '150px',
-        backgroundColor: '#cbd6f9',
-        flexContainer: {
-            flexDirection: 'column'
-        },
-        indicator: {
-            display: 'none',
-        },
-    },
-    address: {
-        'padding-top': '10px',
-    },
-    chart: {
-        padding: '5px 0px 50px 0',
-
-    },
-};
-
-class Main extends Component {
-    constructor() {
-        super();
-        this.state = {
-            activeIndex: 1,
-        };
-    }
-
-    render() {
-        const account = this.props.account;
-        const {classes} = this.props;
-        console.log(this.props.account);
-        return (
-            <Grid>
-                <Grid container className={classes.container}>
-
-                    <Tabs defaultTab="vertical-tab-five" vertical>
-
-                        <TabList className={classes.tabList}>
-                            <Grid className={classes.logo}><WalletIcon/></Grid>
-                            <Tab tabFor="vertical-tab-one"><WalletIcon/> </Tab>
-                            <Tab tabFor="vertical-tab-two"><SendIcon/></Tab>
-                            <Tab tabFor="vertical-tab-three"><ReceiveIcon/></Tab>
-                            <Tab tabFor="vertical-tab-four"><ContactsIcon/></Tab>
-                            <Tab tabFor="vertical-tab-five"><TransactionsIcon/></Tab>
-                            <Tab tabFor="vertical-tab-six"><SettingsIcon/></Tab>
-                            <Tab className={classes.logout} tabFor="vertical-tab-seven"><LogoutIcon/></Tab>
-                        </TabList>
-
-                        <TabPanel tabId="vertical-tab-one">
-                            <Grid container spacing={0} className={classes.address}>
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <Address
-                                            enqueueSnackbar={this.props.enqueueSnackbar}
-                                            address={account.address}
-                                        />
-                                    </Grid>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Chart/>
-                                </Grid>
-                            </Grid>
-                        </TabPanel>
-
-                        <TabPanel tabId="vertical-tab-two">
-                            <SendAsserts
-                                address={account.address}
-                                privateKey={account.privateKey}
-                                enqueueSnackbar={this.props.enqueueSnackbar}
-                            />
-                        </TabPanel>
-
-                        <TabPanel tabId="vertical-tab-three">
-                            <Receive address={account.address}/>
-                        </TabPanel>
-
-                        <TabPanel tabId="vertical-tab-four">
-                            <Contacts contactList={this.props.contactList}/>
-                        </TabPanel>
-
-                        <TabPanel tabId="vertical-tab-five">
-                            <TransactionsHistory address={account.address}/>
-                        </TabPanel>
-
-                        <TabPanel tabId="vertical-tab-six">
-                        </TabPanel>
-
-                        <TabPanel tabId="vertical-tab-seven">
-                        </TabPanel>
-
-                    </Tabs>
-
-                </Grid>
-            </Grid>
-
-
-        );
-    }
+    return (
+        <Typography
+            component="div"
+            role="tabpanel"
+            hidden={value !== index}
+            id={`vertical-tabpanel-${index}`}
+            aria-labelledby={`vertical-tab-${index}`}
+        >
+            {value === index && <Box p={3}>{children}</Box>}
+        </Typography>
+    );
 }
 
 
-export default withStyles(styles)(Main);
+function a11yProps(index) {
+    return {
+        id: `vertical-tab-${index}`,
+        'aria-controls': `vertical-tabpanel-${index}`,
+    };
+}
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        height: '100vh',
+        width: '100vw',
+    },
+    tabs: {
+        borderRight: `1px solid ${theme.palette.divider}`,
+        width: '100%',
+        height: '100%',
+        position: 'relative',
+    },
+    tab: {
+        width: '100%',
+    },
+    logout: {
+        width: '100%',
+        position: 'absolute',
+        bottom: 0,
+    },
+    content:{
+        'background-color': '#acacac',
+        width: '100%',
+        height: '100%',
+    }
+}));
+
+export default function VerticalTabs(props) {
+    const classes = useStyles();
+    const [value, setValue] = React.useState(0);
+    const account = props.account;
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    return (
+        <Grid container className={classes.root}>
+            <Grid item xs={2}>
+                <Tabs
+                    TabIndicatorProps={{style: {background: '#4e00ff'}}}
+                    orientation="vertical"
+                    value={value}
+                    onChange={handleChange}
+                    className={classes.tabs}
+                    centered={true}
+                >
+                    <Tab icon={<WalletIcon/>} label={'Wallet'} {...a11yProps(0)} />
+                    <Tab icon={<SendIcon/>} label={'Send asserts'} className={classes.tab}{...a11yProps(1)} />
+                    <Tab icon={<ReceiveIcon/>} label={'Recieve asserts'}  className={classes.tab} {...a11yProps(2)} />
+                    <Tab icon={<ContactsIcon/>} label={'Contacts'} className={classes.tab} {...a11yProps(3)} />
+                    <Tab icon={<TransactionsIcon/>} label={'Transactions'} className={classes.tab} {...a11yProps(4)} />
+                    <Tab icon={<SettingsIcon/>} label={'Settings'} className={classes.tab}  {...a11yProps(5)} />
+                    <Tab icon={<LogoutIcon/>} label={'Logout'} className={classes.logout}  disableRipple {...a11yProps(6)} />
+                </Tabs>
+            </Grid>
+            <Grid className={classes.content} item xs>
+                <TabPanel value={value} index={0}>
+                    <div >123</div>
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                    <SendAsserts
+                        address={account.address}
+                        privateKey={account.privateKey}
+                        contactList={props.contactList}
+                        enqueueSnackbar={props.enqueueSnackbar}
+                    />
+                </TabPanel>
+                <TabPanel value={value} index={2}>
+                    <Receive address={account.address}/>
+                </TabPanel>
+                <TabPanel value={value} index={3}>
+                    <Contacts
+                        contactList={props.contactList}
+                        updateContacts={props.updateContacts}
+                    />
+                </TabPanel>
+                <TabPanel value={value} index={4}>
+                    <TransactionsHistory address={account.address}/>
+                </TabPanel>
+                <TabPanel value={value} index={5}>
+                    Item Six
+                </TabPanel>
+                <TabPanel value={value} index={6}>
+                    Item Seven
+                </TabPanel>
+            </Grid>
+        </Grid>
+    );
+}

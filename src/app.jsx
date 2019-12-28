@@ -5,9 +5,6 @@ import CreateNewWallet from "./components/CreateNewWallet/CreateNewWallet";
 import * as accountActions from "./ethereum/actions/createWallet";
 import * as crypto from './utils/crypto';
 
-import Address from "./components/Address/Address";
-import Grid from '@material-ui/core/Grid';
-
 import {withSnackbar} from 'notistack';
 
 const Store = require('electron-store');
@@ -26,6 +23,14 @@ class App extends Component {
             walletList: [],
             contactList: [],
         };
+    }
+
+    updateContacts(data) {
+        this.props.enqueueSnackbar('Contacts updated', {
+            variant: 'success',
+        });
+        store.set('contactsList', data);
+
     }
 
     componentDidMount() {
@@ -162,14 +167,23 @@ class App extends Component {
         });
     }
 
+    invokeSnackbar(){
+        this.props.enqueueSnackbar('bar', {
+            variant: 'success',
+        });
+    }
+
     render() {
+
         if (this.state.isLogged) {
             return (
                 <Main
                     account={this.state.accountObj}
                     contactList={this.state.contactList}
                     onLogoutClick={this.handleOnLogoutClick.bind(this)}
+                    updateContacts={this.updateContacts.bind(this)}
                     enqueueSnackbar={this.props.enqueueSnackbar}
+                    invokeSnackbar={this.invokeSnackbar.bind(this)}
                 />
             )
         }
