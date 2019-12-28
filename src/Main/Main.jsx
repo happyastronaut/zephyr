@@ -25,7 +25,7 @@ import Contacts from "../components/Contacts/Contacts";
 
 
 function TabPanel(props) {
-    const {children, value, index} = props;
+    let {children, value, index} = props;
 
     return (
         <Typography
@@ -73,12 +73,13 @@ const useStyles = makeStyles(theme => ({
         height: '100%',
         display: 'flex',
         'align-items': 'center',
+        'justify-content': 'center',
     }
 }));
 
 export default function VerticalTabs(props) {
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = React.useState(1);
     const account = props.account;
 
     const handleChange = (event, newValue) => {
@@ -96,7 +97,7 @@ export default function VerticalTabs(props) {
                     className={classes.tabs}
                     centered={true}
                 >
-                    <Tab icon={<WalletIcon/>} label={'Wallet'} {...a11yProps(0)} />
+                    <Tab icon={<WalletIcon/>}  label={'Wallet'} {...a11yProps(0)} />
                     <Tab icon={<SendIcon/>} label={'Send asserts'} className={classes.tab}{...a11yProps(1)} />
                     <Tab icon={<ReceiveIcon/>} label={'Recieve asserts'}  className={classes.tab} {...a11yProps(2)} />
                     <Tab icon={<ContactsIcon/>} label={'Contacts'} className={classes.tab} {...a11yProps(3)} />
