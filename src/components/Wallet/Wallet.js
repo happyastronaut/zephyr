@@ -22,6 +22,7 @@ export default function (props) {
                 <Address
                     enqueueSnackbar={props.enqueueSnackbar}
                     address={props.address}
+                    networkUrl={props.networkUrl}
                 />
             </Grid>
             <Grid item className={classes.chart} xs={12}>

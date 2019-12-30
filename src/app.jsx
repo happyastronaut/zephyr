@@ -6,6 +6,7 @@ import * as accountActions from "./ethereum/actions/createWallet";
 import * as crypto from './utils/crypto';
 
 import {withSnackbar} from 'notistack';
+import networks from "./ethereum/constants/nets";
 
 const Store = require('electron-store');
 const store = new Store();
@@ -22,6 +23,7 @@ class App extends Component {
             error: '',
             walletList: [],
             contactList: [],
+            networkUrl: networks.networks[0].url,
         };
     }
 
@@ -184,6 +186,7 @@ class App extends Component {
                     updateContacts={this.updateContacts.bind(this)}
                     enqueueSnackbar={this.props.enqueueSnackbar}
                     invokeSnackbar={this.invokeSnackbar.bind(this)}
+                    networkUrl={this.state.networkUrl}
                 />
             )
         }

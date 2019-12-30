@@ -12,17 +12,13 @@ import {makeStyles} from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
     container: {
         width: '50vw',
-        position: 'absolute',
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)',
     },
     paper: {
         margin: '50px 20px',
-        width: '100%'
+        width: '100%',
     },
     formControl: {
-        width: '100%',
+        width: '80%',
         height: 500
     }
 }));
@@ -30,12 +26,12 @@ const useStyles = makeStyles(theme => ({
 export default function Settings(props) {
 
     const handleChange = event => {
-
+        setNet(event.target.value)
     };
 
     const classes = useStyles();
-    const networks = props.networks;
-    const [currentNet, setNet] = React.useState('');
+    const networks = props.networks.networks;
+    const [currentNet, setNet] = React.useState('MainNet');
     return (
         <Grid container className={classes.container}>
             <Grid item xs={12}>
@@ -45,19 +41,23 @@ export default function Settings(props) {
                 >
                     <p>Networks:</p>
                     <FormControl className={classes.formControl}>
-                        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                        <InputLabel id="select-network">Age</InputLabel>
                     <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
+                        labelId="select-network"
+                        id="select-network-id"
                         value={currentNet}
                         onChange={handleChange}
                     >
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        {
+                            networks !== undefined &&
+                            networks.map(option => (
+                                <MenuItem key={option.name} value={option.name}>
+                                    {option.name}
+                                </MenuItem>
+                            ))
+                        }
                     </Select>
                     </FormControl>
-                    {console.log(networks)}
                 </Paper></Grid>
         </Grid>
     )

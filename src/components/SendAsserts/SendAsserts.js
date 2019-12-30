@@ -10,10 +10,9 @@ import Icon from '@material-ui/core/Icon';
 import {Autocomplete} from '@material-ui/lab';
 
 import {makeStyles} from '@material-ui/core/styles';
-import {ropstenRpcURL} from "../../ethereum/constants/nets";
 
 const Web3 = require('web3');
-const web3 = new Web3(ropstenRpcURL);
+const web3 = new Web3('https://ropsten.infura.io/v3/027bb869b03f4456aa1e9d13aa1f6506');
 
 const useStyles = makeStyles(theme => ({
     container: {

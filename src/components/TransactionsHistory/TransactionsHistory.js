@@ -13,7 +13,7 @@ import {ropstenRpcURL} from "../../ethereum/constants/nets";
 
 
 const Web3 = require('web3');
-const web3 = new Web3(ropstenRpcURL);
+const web3 = new Web3('https://ropsten.infura.io/v3/027bb869b03f4456aa1e9d13aa1f6506');
 
 const columns = [
     {id: 'blockNumber', label: 'Block',},
@@ -38,7 +38,7 @@ const useStyles = makeStyles({
         margin: 15,
     },
     container: {
-        width: '88vw',
+        width: '80vw',
         height: '95vh',
     },
 });

@@ -51,7 +51,10 @@ class Address extends Component {
                                 </IconButton></Typography>
                             </Grid>
                             <Grid item xs={3}>
-                                <Balance address={address}/>
+                                <Balance
+                                    address={address}
+                                    networkUrl={this.props.networkUrl}
+                                />
                             </Grid>
                         </Grid>
 

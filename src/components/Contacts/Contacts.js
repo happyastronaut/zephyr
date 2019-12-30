@@ -1,35 +1,15 @@
 import React, {Component} from 'react';
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-
-import Edit from '@material-ui/icons/Edit';
-import Delete from '@material-ui/icons/Delete';
-
-import IconButton from '@material-ui/core/IconButton';
-
-import Grid from '@material-ui/core/Grid';
-
 import MaterialTable from "material-table";
 
 import {withStyles} from '@material-ui/styles';
 
-const Store = require('electron-store');
-const store = new Store();
-
 const useStyles = {
     container: {
-        width: '92vw',
-        // height: '80vh',
+        width: '80vw',
+        height: '100%',
         padding: 5,
-        position: 'relative',
-        display: 'inline-block',
-        top: '50%',
-        transform: 'translateY(-50%)',
+
     },
     table: {
         // width: '100vw',

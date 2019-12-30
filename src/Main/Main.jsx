@@ -22,6 +22,7 @@ import TransactionsHistory from "../components/TransactionsHistory/TransactionsH
 import Settings from "../components/Settings/Settings";
 import Receive from "../components/Receive/Receive";
 import Contacts from "../components/Contacts/Contacts";
+import networks from "../ethereum/constants/nets";
 
 
 function TabPanel(props) {
@@ -58,14 +59,15 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         height: '100%',
         position: 'relative',
+        margin: '25px 0',
     },
     tab: {
         width: '100%',
     },
     logout: {
         width: '100%',
-        position: 'absolute',
-        bottom: 20,
+        // position: 'absolute',
+        // bottom: 20,
     },
     content:{
         'background-color': '#fff',
@@ -79,12 +81,14 @@ const useStyles = makeStyles(theme => ({
 
 export default function VerticalTabs(props) {
     const classes = useStyles();
-    const [value, setValue] = React.useState(1);
+    const [value, setValue] = React.useState(5);
     const account = props.account;
+    const networkUrl = props.networkUrl;
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
 
     return (
         <Grid container className={classes.root}>
@@ -103,13 +107,19 @@ export default function VerticalTabs(props) {
                     <Tab icon={<ContactsIcon/>} label={'Contacts'} className={classes.tab} {...a11yProps(3)} />
                     <Tab icon={<TransactionsIcon/>} label={'Transactions'} className={classes.tab} {...a11yProps(4)} />
                     <Tab icon={<SettingsIcon/>} label={'Settings'} className={classes.tab}  {...a11yProps(5)} />
-                    <Tab icon={<LogoutIcon/>} label={'Logout'} className={classes.logout}  disableRipple {...a11yProps(6)} />
+                    <Tab icon={<LogoutIcon/>} label={'Logout'} className={classes.logout} disableRipple {...a11yProps(6)}  onClick={() => {
+                        props.onLogoutClick();
+                        props.enqueueSnackbar('Logouted', {
+                            variant: 'success',
+                        });
+                    }}  />
                 </Tabs>
             </Grid>
             <Grid className={classes.content} item xs={10}>
                 <TabPanel value={value} index={0}>
                     <Wallet
                         address={account.address}
+                        networkUrl={networkUrl}
                         enqueueSnackbar={props.enqueueSnackbar}
                     />
                 </TabPanel>
@@ -134,10 +144,9 @@ export default function VerticalTabs(props) {
                     <TransactionsHistory address={account.address}/>
                 </TabPanel>
                 <TabPanel value={value} index={5}>
-                    Item Six
+                    <Settings networks={networks}/>
                 </TabPanel>
                 <TabPanel value={value} index={6}>
-                    Item Seven
                 </TabPanel>
             </Grid>
         </Grid>

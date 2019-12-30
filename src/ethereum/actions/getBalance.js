@@ -1,11 +1,10 @@
 const Web3 = require('web3');
-import {ropstenRpcURL} from '../constants/nets';
 
-const web3 = new Web3(ropstenRpcURL);
 
 module.exports = {
-    getBalance: async (address) => {
-      return await web3.eth.getBalance(address);
+    getBalance: async (networkUrl, address) => {
+        const web3 = new Web3(networkUrl);
+        return await web3.eth.getBalance(address);
     },
 };
 
