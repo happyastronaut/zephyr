@@ -6,6 +6,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import Typography from '@material-ui/core/Typography';
 
 import {makeStyles} from '@material-ui/core/styles';
 
@@ -16,22 +17,33 @@ const useStyles = makeStyles(theme => ({
     paper: {
         margin: '50px 20px',
         width: '100%',
+        height: '50vh'
+    },
+    title: {
+        padding: '20px 40px 0 40px',
     },
     formControl: {
         width: '80%',
-        height: 500
-    }
+        padding: '0px 40px 10px 40px',
+        'vertical-align': 'middle',
+    },
+    field: {
+
+    },
 }));
 
 export default function Settings(props) {
 
     const handleChange = event => {
-        setNet(event.target.value)
+        const pick = event.target.value;
+        setNet(pick);
+        props.switchNetwork(networks.find(x => x.name === pick).url);
     };
 
     const classes = useStyles();
     const networks = props.networks.networks;
-    const [currentNet, setNet] = React.useState('MainNet');
+    console.log(networks.find(x => x.url === props.networkUrl).name);
+    const [currentNet, setNet] = React.useState(networks.find(x => x.url === props.networkUrl).name);
     return (
         <Grid container className={classes.container}>
             <Grid item xs={12}>
@@ -39,10 +51,17 @@ export default function Settings(props) {
                     className={classes.paper}
                     elevation={5}
                 >
-                    <p>Networks:</p>
+                    <Typography
+                        variant="h6"
+                        color={"primary"}
+                        className={classes.title}
+                    >
+                        Networks:
+                    </Typography>
                     <FormControl className={classes.formControl}>
-                        <InputLabel id="select-network">Age</InputLabel>
+              
                     <Select
+                        className={classes.field}
                         labelId="select-network"
                         id="select-network-id"
                         value={currentNet}

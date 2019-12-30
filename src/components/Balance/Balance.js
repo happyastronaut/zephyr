@@ -36,7 +36,7 @@ class Balance extends Component {
 
     render() {
         const {classes} = this.props;
-        let balance = this.state.balance;
+        let balance = this.state.balance || '0';
         const web3 = new Web3(this.props.networkUrl);
         if (balance) {
             balance = web3.utils.fromWei(balance);

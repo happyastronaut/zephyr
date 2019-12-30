@@ -144,7 +144,11 @@ export default function VerticalTabs(props) {
                     <TransactionsHistory address={account.address}/>
                 </TabPanel>
                 <TabPanel value={value} index={5}>
-                    <Settings networks={networks}/>
+                    <Settings
+                        networks={networks}
+                        networkUrl={props.networkUrl}
+                        switchNetwork={props.switchNetwork}
+                    />
                 </TabPanel>
                 <TabPanel value={value} index={6}>
                 </TabPanel>

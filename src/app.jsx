@@ -175,6 +175,12 @@ class App extends Component {
         });
     }
 
+    switchNetwork(newNetUrl) {
+        this.setState({
+            networkUrl: newNetUrl,
+        })
+    }
+
     render() {
 
         if (this.state.isLogged) {
@@ -187,6 +193,7 @@ class App extends Component {
                     enqueueSnackbar={this.props.enqueueSnackbar}
                     invokeSnackbar={this.invokeSnackbar.bind(this)}
                     networkUrl={this.state.networkUrl}
+                    switchNetwork={this.switchNetwork.bind(this)}
                 />
             )
         }
