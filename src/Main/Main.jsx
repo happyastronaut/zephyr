@@ -76,7 +76,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         'align-items': 'center',
         'justify-content': 'center',
-    }
+    },
 }));
 
 export default function VerticalTabs(props) {
@@ -128,6 +128,8 @@ export default function VerticalTabs(props) {
                         address={account.address}
                         privateKey={account.privateKey}
                         contactList={props.contactList}
+                        networks={networks}
+                        networkUrl={props.networkUrl}
                         enqueueSnackbar={props.enqueueSnackbar}
                     />
                 </TabPanel>
@@ -141,13 +143,20 @@ export default function VerticalTabs(props) {
                     />
                 </TabPanel>
                 <TabPanel value={value} index={4}>
-                    <TransactionsHistory address={account.address}/>
+                    <TransactionsHistory
+                        address={account.address}
+                        contactList={props.contactList}
+                        networks={networks}
+                        networkUrl={props.networkUrl}
+                    />
                 </TabPanel>
                 <TabPanel value={value} index={5}>
                     <Settings
                         networks={networks}
                         networkUrl={props.networkUrl}
                         switchNetwork={props.switchNetwork}
+                        account={account}
+                        enqueueSnackbar={props.enqueueSnackbar}
                     />
                 </TabPanel>
                 <TabPanel value={value} index={6}>

@@ -8,7 +8,7 @@ const useStyles = {
     container: {
         width: '80vw',
         height: '100%',
-        padding: 5,
+        // padding: '200px 5px',
 
     },
     table: {
@@ -45,10 +45,10 @@ class Contacts extends Component {
                     options={{
                         pageSize: 11,
                         pageSizeOptions: [11],
-                        // minBodyHeight: '1000px',
+                        // minBodyHeight: '90vh',
                         // maxBodyHeight: '1000px'
                     }}
-                    // style={{width: '100%', height: '500px',}}
+                    // style={{width: '100%', height: '400px',}}
                     editable={{
                         onRowAdd: newData =>
                             new Promise((resolve, reject) => {

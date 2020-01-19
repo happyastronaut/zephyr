@@ -15,7 +15,7 @@ class App extends Component {
 
     constructor(props) {
         super(props);
-        // store.openInEditor();
+        store.openInEditor();
         this.state = {
             route: 'login',
             isLogged: false,
@@ -42,7 +42,7 @@ class App extends Component {
             walletList: wallets,
             contactList: contacts,
         });
-        this.onLoginClickPrivateKey('0x7cc936b609b30ad652a5fe88c0574a6ec63f9e2d577f577acdd935100bf37af9'); //DEBUG
+        // this.onLoginClickPrivateKey('0x7cc936b609b30ad652a5fe88c0574a6ec63f9e2d577f577acdd935100bf37af9'); //DEBUG
     }
 
     onLoginClickPrivateKey(pk) {

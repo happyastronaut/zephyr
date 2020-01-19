@@ -47,7 +47,7 @@ class Balance extends Component {
                 <Grid item xs={12} className={classes.header}>
                     <Grid container>
                         <Grid item xs={9} className={classes.text}>
-                            <Typography><b>Balance:</b> {balance} ETH </Typography>
+                            <Typography><b>Balance:</b> {parseFloat(balance).toFixed(2)} ETH </Typography>
                         </Grid>
                     </Grid>
                 </Grid>

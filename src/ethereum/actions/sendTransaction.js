@@ -1,13 +1,11 @@
 const Web3 = require('web3');
 const Tx = require('ethereumjs-tx');
 
-import {ropstenRpcURL} from '../constants/nets';
-
-const web3 = new Web3('https://ropsten.infura.io/v3/027bb869b03f4456aa1e9d13aa1f6506');
-
 module.exports = {
 
-    sendAsserts: async (senderAddress, senderPK, receiverAddress, amount, setGasPrice = '10', setGasLimit = 21000) => {
+    sendAsserts: async (senderAddress, senderPK, receiverAddress, amount, setGasPrice = '10', setGasLimit = 21000, networkUrl) => {
+        const web3 = new Web3(networkUrl);
+
         const txCount = await web3.eth.getTransactionCount(senderAddress);
 
         const slicedPK = senderPK.slice(2, senderPK.length);

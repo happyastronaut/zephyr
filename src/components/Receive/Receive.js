@@ -50,7 +50,7 @@ class Receive extends Component {
                         </Grid>
                         <Grid className={classes.items} item xs={6}>
                             <div className={classes.qr}>
-                                <QRCode size={250} value={this.props.address}/>
+                                <QRCode size={250} value={`https://etherscan.io/address/${this.props.address}`}/>
                             </div>
                         </Grid>
                     </Grid>

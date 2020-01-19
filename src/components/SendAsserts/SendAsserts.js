@@ -12,7 +12,6 @@ import {Autocomplete} from '@material-ui/lab';
 import {makeStyles} from '@material-ui/core/styles';
 
 const Web3 = require('web3');
-const web3 = new Web3('https://ropsten.infura.io/v3/027bb869b03f4456aa1e9d13aa1f6506');
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -134,6 +133,7 @@ export default function SendAsserts(props) {
     );
 
     async function handleSubmit(event) {
+        const web3 = new Web3(props.networkUrl);
         event.preventDefault();
         console.log(address, amount, gasPrice, gasLimit);
         //0x2dDd58766120254a9Ebc4E7E2Cf4594a350abDeb
@@ -159,7 +159,7 @@ export default function SendAsserts(props) {
         }
         let res;
         try {
-            res = await send.sendAsserts(props.address, props.privateKey, address, amount.toString(), gasPrice.toString(), gasLimit.toString());
+            res = await send.sendAsserts(props.address, props.privateKey, address, amount.toString(), gasPrice.toString(), gasLimit.toString(), props.networkUrl);
         } catch (e) {
             props.enqueueSnackbar(`Error: ${e}`, {
                 variant: 'error',

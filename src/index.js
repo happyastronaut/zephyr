@@ -6,16 +6,16 @@ import {enableLiveReload} from 'electron-compile';
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-const isDevMode = process.execPath.match(/[\\/]electron/);
-// const isDevMode = false;
+// const isDevMode = process.execPath.match(/[\\/]electron/);
+const isDevMode = false;
 
 if (isDevMode) enableLiveReload({strategy: 'react-hmr'});
 
 const createWindow = async () => {
     // Create the browser window.
     mainWindow = new BrowserWindow({
-        width: 1380,
-        height: 720,
+        width: 1300,
+        height: 740,
     });
 
     // and load the index.html of the app.
@@ -34,6 +34,8 @@ const createWindow = async () => {
         // when you should delete the corresponding element.
         mainWindow = null;
     });
+
+    mainWindow.setMenu(null);
 };
 
 // This method will be called when Electron has finished

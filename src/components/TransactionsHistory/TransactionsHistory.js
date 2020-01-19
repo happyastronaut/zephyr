@@ -9,11 +9,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 
-import {ropstenRpcURL} from "../../ethereum/constants/nets";
-
-
-const Web3 = require('web3');
-const web3 = new Web3('https://ropsten.infura.io/v3/027bb869b03f4456aa1e9d13aa1f6506');
 
 const columns = [
     {id: 'blockNumber', label: 'Block',},
@@ -22,8 +17,9 @@ const columns = [
     {id: 'amount', label: 'amount',},
     {id: 'timestamp', label: 'timestamp',},
 ];
-
+/*
 function createData(blockNumber, from, to, amount, timestamp) {
+    console.log();
     return {blockNumber, from, to, amount, timestamp};
 }
 
@@ -31,7 +27,7 @@ function createData(blockNumber, from, to, amount, timestamp) {
 let rows = [
     createData('-', '-', '-', '-', '-'),
 ];
-
+*/
 const useStyles = makeStyles({
     root: {
         width: '100%',
@@ -48,15 +44,20 @@ export default function TransactionsHistory(props) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [data, setData] = useState({data: []});
-    rows = Array.from(data);
-    rows = rows.reverse();
+    const Web3 = require('web3');
+    const web3 = new Web3(props.networkUrl);
+    const scanURL = props.networks.networks.find(x => x.url === props.networkUrl).txScan;
+    const rows = Array.from(data).reverse();
+    // rows = rows.reverse();
+
     useEffect(() => {
             const fetchData = async () => {
-
-                const result = await fetch(`http://api-ropsten.etherscan.io/api?module=account&action=txlist&address=${props.address}`).then((res) => {
+//http://api-${scanURL}api?module=account&action=txlist&address=${props.address}
+                const result = await fetch(`${scanURL}api?module=account&action=txlist&address=${props.address}`).then((res) => {
                         return res.json();
                     }
                 );
+                console.log(result);
                 const data = [];
                 result.result.forEach((item) => {
                     data.push({
@@ -95,22 +96,31 @@ export default function TransactionsHistory(props) {
                                     align={column.align}
                                     style={{minWidth: column.minWidth}}
                                 >
-                                    {column.label}
+                                     {column.label}
                                 </TableCell>
                             ))}
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {rows.map((row, index) => {
+                            // console.log(row);
+                            props.contactList.forEach(x => {
+                                if(x.address.toLowerCase() === row.from.toLowerCase()){
+                                    row.from = x.name;
+                                }
+                                if(x.address.toLowerCase() === row.to.toLowerCase()){
+                                    row.to = x.name;
+                                }
+                            });
                             return (
                                 <TableRow key={row.hash + index}>
                                     <TableCell component="th" scope="row">
                                         {row.blockNumber}
                                     </TableCell>
-                                    <TableCell align="right">{row.from}</TableCell>
-                                    <TableCell align="right">{row.to}</TableCell>
-                                    <TableCell align="right">{row.amount}</TableCell>
-                                    <TableCell align="right">{row.timestamp}</TableCell>
+                                    <TableCell align="left">{row.from}</TableCell>
+                                    <TableCell align="left">{row.to}</TableCell>
+                                    <TableCell align="left">{row.amount}</TableCell>
+                                    <TableCell align="left">{row.timestamp}</TableCell>
                                 </TableRow>
                             );
                         })}

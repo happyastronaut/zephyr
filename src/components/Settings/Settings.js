@@ -1,3 +1,5 @@
+const {clipboard} = require('electron');
+
 import React from 'react';
 
 import Grid from '@material-ui/core/Grid';
@@ -7,6 +9,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Typography from '@material-ui/core/Typography';
+import CopyIcon from '@material-ui/icons/FileCopy';
+import IconButton from '@material-ui/core/IconButton';
+
+import Address from '../Address/Address';
 
 import {makeStyles} from '@material-ui/core/styles';
 
@@ -27,12 +33,17 @@ const useStyles = makeStyles(theme => ({
         padding: '0px 40px 10px 40px',
         'vertical-align': 'middle',
     },
-    field: {
-
-    },
+    field: {},
 }));
 
 export default function Settings(props) {
+
+    const copy = value => {
+        clipboard.writeText(value);
+        props.enqueueSnackbar('Copied to clipboard', {
+            variant: 'success',
+        });
+    };
 
     const handleChange = event => {
         const pick = event.target.value;
@@ -59,25 +70,39 @@ export default function Settings(props) {
                         Networks:
                     </Typography>
                     <FormControl className={classes.formControl}>
-              
-                    <Select
-                        className={classes.field}
-                        labelId="select-network"
-                        id="select-network-id"
-                        value={currentNet}
-                        onChange={handleChange}
-                    >
-                        {
-                            networks !== undefined &&
-                            networks.map(option => (
-                                <MenuItem key={option.name} value={option.name}>
-                                    {option.name}
-                                </MenuItem>
-                            ))
-                        }
-                    </Select>
+
+                        <Select
+                            className={classes.field}
+                            labelId="select-network"
+                            id="select-network-id"
+                            value={currentNet}
+                            onChange={handleChange}
+                        >
+                            {
+                                networks !== undefined &&
+                                networks.map(option => (
+                                    <MenuItem key={option.name} value={option.name}>
+                                        {option.name}
+                                    </MenuItem>
+                                ))
+                            }
+                        </Select>
                     </FormControl>
-                </Paper></Grid>
+                    <Typography
+                        variant="h6"
+                        color={"primary"}
+                        className={classes.title}
+                    >
+                        Export wallet Private Key:
+                        <IconButton
+                            onClick={() => {copy(props.account.privateKey)}} aria-label={'copy'}>
+                            <CopyIcon fontSize={'small'} className={classes.icon}/>
+                        </IconButton>
+                    </Typography>
+
+
+                </Paper>
+            </Grid>
         </Grid>
-    )
+)
 }
